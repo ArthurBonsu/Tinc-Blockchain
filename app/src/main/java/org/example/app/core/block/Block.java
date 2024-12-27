@@ -1,4 +1,4 @@
-package org.tinc.block;
+package org.example.app.core.block;
 
 import java.util.Arrays;
 

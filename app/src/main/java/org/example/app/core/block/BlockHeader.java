@@ -1,4 +1,4 @@
-package org.tinc.block;
+package org.example.app.core.block;
 
 public class BlockHeader {
     private String parentHash;

@@ -1,6 +1,6 @@
-package org.tinc.core;
+package org.example.app.core.account;
 
-import org.tinc.types.Address;
+import org.example.app.core.types.Address;
 
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

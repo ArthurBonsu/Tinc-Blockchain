@@ -1,6 +1,6 @@
-package org.tinc.block;
+package org.example.app.core.block;
 
-import org.tinc.core.state.StateTransition;
+import org.example.app.core.core.state.StateTransition;
 import core.eth.Blockchain;
 
 public class BlockProcessor {
