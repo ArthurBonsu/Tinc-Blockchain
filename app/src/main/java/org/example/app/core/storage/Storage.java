@@ -1,4 +1,4 @@
-package org.tinc.core;
+package org.example.app.core.storage;
 
 
 public interface Storage {

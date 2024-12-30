@@ -1,4 +1,4 @@
-package org.tinc.core;
+package org.example.app.core.encoder;
 
 import java.io.*;
 

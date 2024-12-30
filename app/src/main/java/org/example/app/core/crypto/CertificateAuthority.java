@@ -1,4 +1,4 @@
-package org.tinc.crypto;
+package org.example.app.core.crypto;
 
 import java.security.*;
 

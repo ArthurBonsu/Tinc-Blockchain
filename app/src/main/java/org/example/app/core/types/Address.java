@@ -1,5 +1,5 @@
-package org.tinc.types;
 
+package org.example.app.core.types;
 import java.util.Arrays;
 
 public class Address {

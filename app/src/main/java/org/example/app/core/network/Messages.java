@@ -1,6 +1,6 @@
-package org.tinc.network;
+package org.example.app.core.network;
 
-import org.tinc.core.Block;
+import org.example.app.core.block.Block;
 import java.util.List;
 
 public class Messages {

@@ -1,11 +1,13 @@
-package org.tinc.smartcontract;
+package org.example.app.core.smartcontract;
 
-import org.tinc.core.Block;
-import org.tinc.core.Blockchain;
-import org.tinc.core.Transaction;
-import org.tinc.types.Address;
-import org.tinc.types.Hash;
-import org.tinc.types.List;
+import org.example.app.core.block.Block;
+import org.example.app.core.consensus.Blockchain;
+
+import org.example.app.core.types.Address;
+
+
+import org.example.app.core.types.Hash;
+import org.example.app.core.types.List;
 
 import java.util.logging.Logger;
 

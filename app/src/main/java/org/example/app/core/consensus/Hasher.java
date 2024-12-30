@@ -1,7 +1,7 @@
-package org.tinc.core;
+package org.example.app.core.consensus;
 
 
-import org.tinc.types.Hash;
+import org.example.app.core.types.Hash;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

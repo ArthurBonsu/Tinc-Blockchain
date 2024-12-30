@@ -1,122 +1,165 @@
-package org.tinc.p2p;
+package org.example.app.core.p2p;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
+import java.time.Instant;
 
 public class BroadcastManager {
-    private final Set<String> peers; // List of known peers
-    private final Map<String, Boolean> acknowledgments; // Tracks acknowledgment from each peer
-    private final Peer peer; // The local peer instance for broadcasting messages
+    private final Set<String> peers;
+    private final Map<String, PeerStatus> peerStatuses;
+    private final Peer peer;
+    private final ExecutorService broadcastExecutor;
+    private static final int MAX_RETRIES = 3;
+    private static final long RETRY_DELAY_MS = 1000;
+    private static final long ACKNOWLEDGMENT_TIMEOUT_MS = 10000; // 10 seconds
 
-    /**
-     * Initializes the BroadcastManager with a list of known peers.
-     *
-     * @param peer  The local peer instance.
-     * @param peers The list of known peers' addresses.
-     */
+    public static class PeerStatus {
+        private boolean acknowledged;
+        private Instant lastAttempt;
+        private int retryCount;
+        private BroadcastStatus status;
+
+        public PeerStatus() {
+            this.acknowledged = false;
+            this.lastAttempt = null;
+            this.retryCount = 0;
+            this.status = BroadcastStatus.PENDING;
+        }
+    }
+
+    public enum BroadcastStatus {
+        PENDING,
+        SENT,
+        ACKNOWLEDGED,
+        FAILED,
+        TIMEOUT
+    }
+
     public BroadcastManager(Peer peer, Set<String> peers) {
         if (peer == null) {
             throw new IllegalArgumentException("Peer cannot be null.");
         }
         this.peer = peer;
-        this.peers = peers != null ? new HashSet<>(peers) : new HashSet<>();
-        this.acknowledgments = new ConcurrentHashMap<>();
+        this.peers = Collections.synchronizedSet(peers != null ? new HashSet<>(peers) : new HashSet<>());
+        this.peerStatuses = new ConcurrentHashMap<>();
+        this.broadcastExecutor = Executors.newCachedThreadPool();
+
+        // Initialize status tracking for existing peers
+        peers.forEach(peerAddress -> peerStatuses.put(peerAddress, new PeerStatus()));
     }
 
-    /**
-     * Broadcasts a message to all known peers in the network.
-     *
-     * @param messageContent The content of the message to broadcast.
-     */
-//    public void broadcastMessage(String messageContent) {
-//        if (messageContent == null || messageContent.trim().isEmpty()) {
-//            throw new IllegalArgumentException("Message content cannot be null or empty.");
-//        }
-//
-//        Message message = new Message(peer.getPeerId(), messageContent);
-//
-//        // Iterate over all known peers and send the message
-//        for (String peerAddress : peers) {
-//            try {
-//                peer.connectToPeer(peerAddress, message.getContent());
-//                System.out.println("BroadcastManager: Sent message to " + peerAddress);
-//                acknowledgments.put(peerAddress, false); // Track acknowledgment for each peer
-//            } catch (Exception e) {
-//                System.err.println("BroadcastManager: Failed to send message to " + peerAddress + ". Error: " + e.getMessage());
-//            }
-//        }
-//    }
-    public void broadcastMessage(String messageContent) {
+    public CompletableFuture<Map<String, BroadcastStatus>> broadcastMessage(String messageContent) {
         if (messageContent == null || messageContent.trim().isEmpty()) {
             throw new IllegalArgumentException("Message content cannot be null or empty.");
         }
 
         Message message = new Message(peer.getPeerId(), messageContent);
-        for (String peerAddress : peers) {
-            int retries = 3;
-            while (retries-- > 0) {
+        Map<String, CompletableFuture<BroadcastStatus>> futures = new ConcurrentHashMap<>();
+
+        synchronized (peers) {
+            for (String peerAddress : peers) {
+                PeerStatus status = peerStatuses.computeIfAbsent(peerAddress, k -> new PeerStatus());
+                status.lastAttempt = Instant.now();
+                status.retryCount = 0;
+                status.status = BroadcastStatus.PENDING;
+
+                CompletableFuture<BroadcastStatus> future = CompletableFuture.supplyAsync(
+                    () -> sendWithRetry(peerAddress, message),
+                    broadcastExecutor
+                );
+                futures.put(peerAddress, future);
+            }
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            Map<String, BroadcastStatus> results = new ConcurrentHashMap<>();
+            futures.forEach((peerAddress, future) -> {
                 try {
-                    peer.connectToPeer(peerAddress, message.getContent());
-                    System.out.println("BroadcastManager: Sent message to " + peerAddress);
-                    acknowledgments.put(peerAddress, false);
-                    break;
+                    results.put(peerAddress, future.get(ACKNOWLEDGMENT_TIMEOUT_MS, TimeUnit.MILLISECONDS));
+                } catch (TimeoutException e) {
+                    results.put(peerAddress, BroadcastStatus.TIMEOUT);
+                    peerStatuses.get(peerAddress).status = BroadcastStatus.TIMEOUT;
                 } catch (Exception e) {
-                    System.err.println("BroadcastManager: Failed to send message to " + peerAddress + ". Retrying...");
-                    if (retries == 0) {
-                        System.err.println("BroadcastManager: Permanently failed to send message to " + peerAddress);
+                    results.put(peerAddress, BroadcastStatus.FAILED);
+                    peerStatuses.get(peerAddress).status = BroadcastStatus.FAILED;
+                }
+            });
+            return results;
+        });
+    }
+
+    private BroadcastStatus sendWithRetry(String peerAddress, Message message) {
+        PeerStatus status = peerStatuses.get(peerAddress);
+        
+        while (status.retryCount < MAX_RETRIES) {
+            try {
+                peer.connectToPeer(peerAddress, message.getContent());
+                status.status = BroadcastStatus.SENT;
+                System.out.println("BroadcastManager: Sent message to " + peerAddress);
+                return BroadcastStatus.SENT;
+            } catch (Exception e) {
+                status.retryCount++;
+                System.err.println("BroadcastManager: Failed to send message to " + peerAddress + 
+                                 " (Attempt " + status.retryCount + "/" + MAX_RETRIES + ")");
+                
+                if (status.retryCount < MAX_RETRIES) {
+                    try {
+                        Thread.sleep(RETRY_DELAY_MS);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
                     }
                 }
             }
         }
+        
+        status.status = BroadcastStatus.FAILED;
+        return BroadcastStatus.FAILED;
     }
 
-    /**
-     * Handles acknowledgment messages from peers confirming receipt of broadcasted messages.
-     *
-     * @param peerAddress The address of the peer sending the acknowledgment.
-     */
     public void acknowledgeReceipt(String peerAddress) {
-        if (peerAddress == null || !acknowledgments.containsKey(peerAddress)) {
-            System.err.println("BroadcastManager: Acknowledgment from unknown or invalid peer: " + peerAddress);
+        PeerStatus status = peerStatuses.get(peerAddress);
+        if (status == null) {
+            System.err.println("BroadcastManager: Acknowledgment from unknown peer: " + peerAddress);
             return;
         }
-        acknowledgments.put(peerAddress, true); // Mark acknowledgment as received
+
+        status.acknowledged = true;
+        status.status = BroadcastStatus.ACKNOWLEDGED;
         System.out.println("BroadcastManager: Acknowledgment received from " + peerAddress);
     }
 
-    /**
-     * Checks the status of all acknowledgments.
-     *
-     * @return A map of peers and their acknowledgment statuses.
-     */
-    public Map<String, Boolean> getAcknowledgmentStatus() {
-        return Collections.unmodifiableMap(acknowledgments);
+    public Map<String, BroadcastStatus> getBroadcastStatus() {
+        Map<String, BroadcastStatus> statuses = new ConcurrentHashMap<>();
+        peerStatuses.forEach((peer, status) -> statuses.put(peer, status.status));
+        return Collections.unmodifiableMap(statuses);
     }
 
-    /**
-     * Adds a new peer to the broadcast list.
-     *
-     * @param peerAddress The address of the new peer to add.
-     */
-    public void addPeer(String peerAddress) {
+    public synchronized void addPeer(String peerAddress) {
         if (peerAddress == null || !peerAddress.contains(":")) {
-            System.err.println("BroadcastManager: Invalid peer address: " + peerAddress);
-            return;
+            throw new IllegalArgumentException("Invalid peer address: " + peerAddress);
         }
         peers.add(peerAddress);
-        System.out.println("BroadcastManager: Added peer " + peerAddress + " to broadcast list.");
+        peerStatuses.put(peerAddress, new PeerStatus());
+        System.out.println("BroadcastManager: Added peer " + peerAddress);
     }
 
-    /**
-     * Removes a peer from the broadcast list.
-     *
-     * @param peerAddress The address of the peer to remove.
-     */
-    public void removePeer(String peerAddress) {
+    public synchronized void removePeer(String peerAddress) {
         if (peers.remove(peerAddress)) {
-            System.out.println("BroadcastManager: Removed peer " + peerAddress + " from broadcast list.");
-        } else {
-            System.err.println("BroadcastManager: Peer " + peerAddress + " not found in broadcast list.");
+            peerStatuses.remove(peerAddress);
+            System.out.println("BroadcastManager: Removed peer " + peerAddress);
+        }
+    }
+
+    public void shutdown() {
+        broadcastExecutor.shutdown();
+        try {
+            if (!broadcastExecutor.awaitTermination(60, TimeUnit.SECONDS)) {
+                broadcastExecutor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            broadcastExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
         }
     }
 }

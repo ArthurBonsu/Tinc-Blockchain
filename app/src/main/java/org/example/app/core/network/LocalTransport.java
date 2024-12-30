@@ -1,4 +1,4 @@
-package org.tinc.network;
+package org.example.app.core.network;
 
 import java.io.ByteArrayInputStream;
 import java.net.InetSocketAddress;

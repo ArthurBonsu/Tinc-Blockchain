@@ -1,7 +1,7 @@
-package core.consensus;
+package org.example.app.core.consensus;
 
-import core.block.Block;
-import core.util.HashUtils;
+import org.example.app.core.block.Block;
+import org.example.app.core.types.Hash;
 
 public class ProofOfWork {
 

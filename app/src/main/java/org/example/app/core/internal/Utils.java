@@ -1,4 +1,4 @@
-package core.internal;
+package org.example.app.core.internal;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

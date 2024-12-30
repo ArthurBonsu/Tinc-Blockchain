@@ -1,4 +1,4 @@
-package block;
+package org.example.app.core.block;
 
 public class Miner {
     private EthereumMiner miner;

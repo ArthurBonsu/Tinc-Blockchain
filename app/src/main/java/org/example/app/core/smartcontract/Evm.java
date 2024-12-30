@@ -1,7 +1,9 @@
-package org.tinc.smartcontract;
+package org.example.app.core.smartcontract;
 
-import org.tinc.core.Transaction;
-import org.tinc.types.Address;
+import org.example.app.core.block.Transaction;
+import org.example.app.core.types.Address;
+
+
 
 import java.util.Stack;
 

@@ -1,8 +1,8 @@
-package core.eth;
+package org.example.app.core.eth;
 
-import core.block.Block;
-import core.consensus.Blockchain;
-import core.util.HashUtils;
+import org.example.app.core.block.Block;
+import org.example.app.core.consensus.Blockchain;
+import org.example.app.core.account.*;
 
 public class EthereumProtocol {
 

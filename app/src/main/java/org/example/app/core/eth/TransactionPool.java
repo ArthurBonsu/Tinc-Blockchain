@@ -1,4 +1,4 @@
-package core.eth;
+package org.example.app.core.eth;
 
 import java.util.LinkedList;
 import java.util.Queue;

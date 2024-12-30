@@ -1,6 +1,6 @@
-package core.consensus;
+package org.example.app.core.consensus;
 
-import core.block.Block;
+import org.example.app.core.block.Block;
 import java.util.List;
 
 public class Blockchain {

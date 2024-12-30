@@ -1,4 +1,4 @@
-package core.util;
+package org.example.app.core.consensus;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

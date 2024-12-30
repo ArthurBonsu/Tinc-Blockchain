@@ -1,4 +1,4 @@
-package core.internal;
+package org.example.app.core.internal;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;

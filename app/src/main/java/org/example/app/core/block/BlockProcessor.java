@@ -1,7 +1,7 @@
 package org.example.app.core.block;
 
-import org.example.app.core.core.state.StateTransition;
-import core.eth.Blockchain;
+import org.example.app.core.state.StateTransition;
+import org.example.app.core.eth.Blockchain;
 
 public class BlockProcessor {
     private Blockchain blockchain;

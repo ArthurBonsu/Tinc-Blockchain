@@ -1,10 +1,10 @@
-package org.tinc.core;
+package org.example.app.core.block;
 
-import org.tinc.types.Hash;
+import org.example.app.core.types.Hash;
 
 public class BlockValidator implements Validator {
 
-    private final core.consensus.Blockchain blockchain;
+    private final org.example.app.core.consensus.Blockchain blockchain;
 
     public BlockValidator(Blockchain blockchain) {
         this.blockchain = blockchain;

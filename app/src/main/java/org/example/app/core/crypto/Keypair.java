@@ -1,6 +1,8 @@
-package org.tinc.crypto;
+package org.example.app.core.crypto;
 
-import org.tinc.types.Address;
+import org.example.app.core.types.Address;
+
+
 
 import java.math.BigInteger;
 import java.security.*;

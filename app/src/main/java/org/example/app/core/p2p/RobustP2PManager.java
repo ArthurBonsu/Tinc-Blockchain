@@ -1,6 +1,6 @@
-package org.tinc.p2p;
+package org.example.app.core.p2p;
 
-import org.tinc.crypto.Keypair;
+import org.example.app.core.crypto.Keypair;
 
 import java.io.*;
 import java.net.*;

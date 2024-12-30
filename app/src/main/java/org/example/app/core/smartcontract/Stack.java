@@ -1,4 +1,4 @@
-package org.tinc.smartcontract;
+package org.example.app.core.smartcontract;
 
 import java.util.Deque;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package org.tinc.smartcontract;
+package org.example.app.core.smartcontract;
 
 public enum Opcode {
     STOP(0x00, 0),

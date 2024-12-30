@@ -1,4 +1,4 @@
-package core.internal;
+package org.example.app.core.internal;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package core.state;
+package org.example.app.core.state;
 
 import java.util.HashMap;
 import java.util.Map;

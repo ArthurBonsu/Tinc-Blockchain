@@ -1,4 +1,4 @@
-package block;
+package org.example.app.core.block;
 
 import java.util.ArrayList;
 import java.util.List;

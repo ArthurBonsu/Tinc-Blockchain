@@ -1,6 +1,6 @@
-package core.eth;
+package org.example.app.core.eth;
 
-import core.block.Block;
+import org.example.app.core.block.Block;
 
 import java.util.ArrayList;
 import java.util.List;

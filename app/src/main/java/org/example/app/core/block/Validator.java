@@ -1,6 +1,6 @@
-package org.tinc.core;
+package org.example.app.core.block;
 
-import org.tinc.types.Hash;
+import org.example.app.core.types.Hash;
 
 public interface Validator {
     /**

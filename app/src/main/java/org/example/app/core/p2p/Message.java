@@ -1,4 +1,4 @@
-package org.tinc.p2p;
+package org.example.app.core.p2p;
 
 import java.io.*;
 import java.util.Objects;

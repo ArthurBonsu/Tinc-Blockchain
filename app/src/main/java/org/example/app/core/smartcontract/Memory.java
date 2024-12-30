@@ -1,4 +1,4 @@
-package org.tinc.smartcontract;
+package org.example.app.core.smartcontract;
 import java.util.Arrays;
 
 public class Memory {

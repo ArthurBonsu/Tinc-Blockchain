@@ -1,4 +1,4 @@
-package block;
+package org.example.app.core.block;
 
 import sun.jvm.hotspot.opto.Block;
 

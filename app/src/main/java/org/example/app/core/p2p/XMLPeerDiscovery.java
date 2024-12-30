@@ -1,4 +1,4 @@
-package org.tinc.p2p;
+package org.example.app.core.p2p;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
