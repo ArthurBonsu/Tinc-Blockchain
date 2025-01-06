@@ -1,10 +1,12 @@
-package org.example.app.core.block;
+package org.example.app.core.eth;
 
-import sun.jvm.hotspot.opto.Block;
+
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.example.app.core.block.Block;
+import org.example.app.core.block.TransactionManager;
+import org.example.app.core.block.Transaction;
 public class Blockchain {
     private List<Block> chain;
     private TransactionManager transactionManager;

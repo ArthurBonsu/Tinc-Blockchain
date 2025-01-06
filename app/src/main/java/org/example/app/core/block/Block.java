@@ -1,6 +1,8 @@
 package org.example.app.core.block;
 
+import java.util.List;
 import java.util.Arrays;
+import org.example.app.core.block.Transaction;
 
 public class Block {
     private String hash;
@@ -9,9 +11,11 @@ public class Block {
     private long timestamp;
     private long difficulty;
     private long number;
-    private String[] transactions;
+    private List<Transaction> transactions;  // Changed from String[] to List<Transaction>
+    private byte[] stateRoot;
 
-    public Block(String hash, String parentHash, String miner, long timestamp, long difficulty, long number, String[] transactions) {
+    public Block(String hash, String parentHash, String miner, long timestamp, 
+                long difficulty, long number, List<Transaction> transactions) {
         this.hash = hash;
         this.parentHash = parentHash;
         this.miner = miner;
@@ -69,12 +73,20 @@ public class Block {
         this.number = number;
     }
 
-    public String[] getTransactions() {
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(String[] transactions) {
+    public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public byte[] getStateRoot() {
+        return stateRoot;
+    }
+
+    public void setStateRoot(byte[] stateRoot) {
+        this.stateRoot = stateRoot;
     }
 
     @Override
@@ -86,7 +98,8 @@ public class Block {
                 ", timestamp=" + timestamp +
                 ", difficulty=" + difficulty +
                 ", number=" + number +
-                ", transactions=" + Arrays.toString(transactions) +
+                ", transactions=" + transactions +
+                ", stateRoot=" + Arrays.toString(stateRoot) +
                 '}';
     }
 }

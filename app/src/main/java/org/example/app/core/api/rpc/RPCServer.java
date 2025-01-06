@@ -1,5 +1,5 @@
 package org.example.app.core.api.rpc;
-
+import org.example.app.core.consensus.Blockchain;
 import com.sun.net.httpserver.HttpServer;
 import java.net.InetSocketAddress;
 

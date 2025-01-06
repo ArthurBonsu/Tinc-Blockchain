@@ -4,7 +4,7 @@ import org.example.app.core.types.Address;
 import org.example.app.core.types.Hash;
 import org.example.app.core.crypto.Keypair;
 import org.example.app.core.crypto.Keypair.SignatureResult;
-
+import org.example.app.core.types.ByteSerializable;  
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
@@ -12,7 +12,7 @@ import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Transaction implements java.io.Serializable {
+public class Transaction implements java.io.Serializable, ByteSerializable {
     private static final long serialVersionUID = 1L;
     private static final int DEFAULT_BUFFER_SIZE = 1024;
     
@@ -30,6 +30,17 @@ public class Transaction implements java.io.Serializable {
     private BigInteger gasPrice; // Added gas price
     private TransactionStatus status; // Added transaction status
 
+
+    private String sender;
+    private String recipient;
+
+    private BigInteger fee;
+  
+    private boolean contractCreation;
+    private boolean contractCall;
+
+   
+
     public enum TransactionStatus {
         PENDING,
         CONFIRMED,
@@ -44,23 +55,31 @@ public class Transaction implements java.io.Serializable {
         this.gasPrice = BigInteger.ZERO;
         this.gasLimit = 21000; // Default gas limit
     }
-
-    @Override
-    public byte[] toBytes() {
-        int estimatedSize = calculateBufferSize();
-        ByteBuffer buffer = ByteBuffer.allocate(estimatedSize);
-        
-        // Write all transaction fields
-        buffer.put(data != null ? data : new byte[0]);
-        writeAddress(buffer, to);
-        buffer.putLong(value);
-        writeAddress(buffer, from);
-        buffer.putLong(nonce);
-        buffer.putInt(gasLimit);
-        writeGasPrice(buffer);
-        
-        return Arrays.copyOf(buffer.array(), buffer.position());
-    }
+ // Getters
+ public String getSender() { return sender; }
+ public String getRecipient() { return recipient; }
+ public Long getValue() { return value; }
+ public BigInteger getFee() { return fee; }
+ public long getNonce() { return nonce; }
+ public byte[] getData() { return data; }
+ public boolean isContractCreation() { return contractCreation; }
+ public boolean isContractCall() { return contractCall; }
+ @Override
+ public byte[] toBytes() {
+     int estimatedSize = calculateBufferSize();
+     ByteBuffer buffer = ByteBuffer.allocate(estimatedSize);
+     
+     // Write all transaction fields
+     buffer.put(data != null ? data : new byte[0]);
+     writeAddress(buffer, to);
+     buffer.putLong(value);
+     writeAddress(buffer, from);
+     buffer.putLong(nonce);
+     buffer.putInt(gasLimit);
+     writeGasPrice(buffer);
+     
+     return Arrays.copyOf(buffer.array(), buffer.position());
+ }
 
     private int calculateBufferSize() {
         return (data != null ? data.length : 0) +
