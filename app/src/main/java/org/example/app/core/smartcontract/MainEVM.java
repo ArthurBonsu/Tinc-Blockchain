@@ -4,7 +4,7 @@ import org.example.app.core.block.Block;
 import org.example.app.core.consensus.Blockchain;
 
 import org.example.app.core.types.Address;
-
+import org.example.app.core.block.Transaction;
 
 import org.example.app.core.types.Hash;
 import org.example.app.core.types.List;

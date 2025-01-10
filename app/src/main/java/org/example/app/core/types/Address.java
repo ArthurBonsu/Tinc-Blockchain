@@ -3,7 +3,7 @@ package org.example.app.core.types;
 import java.util.Arrays;
 
 public class Address {
-    private static final int ADDRESS_LENGTH = 20; // Define the standard address length
+    public static final int ADDRESS_LENGTH = 20; // Define the standard address length
     private final byte[] value;
 
     // Constructor to initialize Address with a byte array
