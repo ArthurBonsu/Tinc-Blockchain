@@ -1,0 +1,221 @@
+└───src
+│       ├───main
+│       │   ├───java
+│       │   │   └───org
+│       │   │       └───example
+│       │   │           └───app
+│       │   │               │   App.java
+│       │   │               │   MessageUtils.java
+│       │   │               │
+│       │   │               └───core
+│       │   │                   │   build.gradle
+│       │   │                   │   core.iml
+│       │   │                   │
+│       │   │                   ├───account
+│       │   │                   │       Account.java
+│       │   │                   │       AccountState.java
+│       │   │                   │
+│       │   │                   ├───api
+│       │   │                   │   ├───handlers
+│       │   │                   │   │       BlockHandler.java
+│       │   │                   │   │
+│       │   │                   │   ├───rest
+│       │   │                   │   │       RESTServer.java
+│       │   │                   │   │
+│       │   │                   │   └───rpc
+│       │   │                   │           GetBalanceMethod.java
+│       │   │                   │           GetBlockMethod.java
+│       │   │                   │           GetTransactionCountMethod.java
+│       │   │                   │           RPCError.java
+│       │   │                   │           RPCMethod.java
+│       │   │                   │           RPCRequest.java
+│       │   │                   │           RPCResponse.java
+│       │   │                   │           RPCServer.java
+│       │   │                   │           RPCService.java
+│       │   │                   │           SendTransactionMethod.java
+│       │   │                   │
+│       │   │                   ├───block
+│       │   │                   │   │   Block.java
+│       │   │                   │   │   BlockHeader.java
+│       │   │                   │   │   BlockProcessor.java
+│       │   │                   │   │   BlockValidator.java
+│       │   │                   │   │   Miner.java
+│       │   │                   │   │   Transaction.java
+│       │   │                   │   │   TransactionManager.java
+│       │   │                   │   │   Validator.java
+│       │   │                   │   │
+│       │   │                   │   └───transaction
+│       │   │                   │           Transaction.java
+│       │   │                   │
+│       │   │                   ├───build
+│       │   │                   │   ├───distributions
+│       │   │                   │   │       core.tar
+│       │   │                   │   │       core.zip
+│       │   │                   │   │
+│       │   │                   │   ├───libs
+│       │   │                   │   │       core.jar
+│       │   │                   │   │
+│       │   │                   │   ├───reports
+│       │   │                   │   │   └───problems
+│       │   │                   │   │           problems-report.html
+│       │   │                   │   │
+│       │   │                   │   ├───scripts
+│       │   │                   │   │       core
+│       │   │                   │   │       core.bat
+│       │   │                   │   │
+│       │   │                   │   └───tmp
+│       │   │                   │       └───jar
+│       │   │                   │               MANIFEST.MF
+│       │   │                   │
+│       │   │                   ├───config
+│       │   │                   │       BlockchainConfig.java
+│       │   │                   │       ConsensusConfig.java
+│       │   │                   │       NetworkConfig.java
+│       │   │                   │       StorageConfig.java
+│       │   │                   │
+│       │   │                   ├───consensus
+│       │   │                   │       Blockchain.java
+│       │   │                   │       Consensus.java
+│       │   │                   │       EthashConsensus.java
+│       │   │                   │       Hasher.java
+│       │   │                   │       HashUtils.java
+│       │   │                   │       ProofOfWork.java
+│       │   │                   │
+│       │   │                   ├───crypto
+│       │   │                   │       Certificate.java
+│       │   │                   │       CertificateAuthority.java
+│       │   │                   │       DiffieHellmanKeyExchange.java
+│       │   │                   │       Keypair.java
+│       │   │                   │       Main.java
+│       │   │                   │       PKIManager.java
+│       │   │                   │       PublicKeyManager.java
+│       │   │                   │       SymmetricKeyManager.java
+│       │   │                   │
+│       │   │                   ├───encoder
+│       │   │                   │       Encoder.java
+│       │   │                   │
+│       │   │                   ├───eth
+│       │   │                   │       Blockchain.java
+│       │   │                   │       BlockchainState.java
+│       │   │                   │       EthereumMiner.java
+│       │   │                   │       EthereumNode.java
+│       │   │                   │       EthereumProtocol.java
+│       │   │                   │       EthereumRPCServer.java
+│       │   │                   │       TransactionPool.java
+│       │   │                   │
+│       │   │                   ├───evm
+│       │   │                   ├───internal
+│       │   │                   │       CPUProfiler.java
+│       │   │                   │       EventLog.java
+│       │   │                   │       Logger.java
+│       │   │                   │       Metrics.java
+│       │   │                   │       MetricsClient.java
+│       │   │                   │       NodeDiscovery.java
+│       │   │                   │       NonceManager.java
+│       │   │                   │       Utils.java
+│       │   │                   │
+│       │   │                   ├───lib
+│       │   │                   │       sqlite-jdbc-3.47.0.0-javadoc.jar
+│       │   │                   │       sqlite-jdbc-3.47.0.0-sources.jar
+│       │   │                   │       sqlite-jdbc-3.47.0.0.jar
+│       │   │                   │
+│       │   │                   ├───mempool
+│       │   │                   │       MempoolConfig.java
+│       │   │                   │       TransactionPool.java
+│       │   │                   │       TransactionPriorityQueue.java
+│       │   │                   │       TransactionValidator.java
+│       │   │                   │
+│       │   │                   ├───metrics
+│       │   │                   │       BlockchainMetrics.java
+│       │   │                   │       ConsensusMetrics.java
+│       │   │                   │       MetricsReporter.java
+│       │   │                   │       NetworkMetrics.java
+│       │   │                   │
+│       │   │                   ├───network
+│       │   │                   │       LocalTransport.java
+│       │   │                   │       Messages.java
+│       │   │                   │
+│       │   │                   ├───p2p
+│       │   │                   │       BroadcastManager.java
+│       │   │                   │       Message.java
+│       │   │                   │       NetworkUtils.java
+│       │   │                   │       Peer.java
+│       │   │                   │       PeerNetwork.java
+│       │   │                   │       RobustP2PManager.java
+│       │   │                   │       UDPManager.java
+│       │   │                   │       XMLPeerDiscovery.java
+│       │   │                   │
+│       │   │                   ├───pbftconsensus
+│       │   │                   │       CheckpointManager.java
+│       │   │                   │       ClientRequestManager.java
+│       │   │                   │       DynamicMembership.java
+│       │   │                   │       FaultDetector.java
+│       │   │                   │       FaultRecovery.java
+│       │   │                   │       LoadBalancer.java
+│       │   │                   │       PBFT.java
+│       │   │                   │       PBFTHandler.java
+│       │   │                   │       PBFTMessage.java
+│       │   │                   │       PBFTMessageHandler.java
+│       │   │                   │       PBFTNetwork.java
+│       │   │                   │       PBFTNetworkMain.java
+│       │   │                   │       PBFTReplica.java
+│       │   │                   │       PerformanceMetrics.java
+│       │   │                   │       PrimaryElection.java
+│       │   │                   │       SecureChannelManager.java
+│       │   │                   │       StateSynchronization.java
+│       │   │                   │       TimeoutManager.java
+│       │   │                   │       ViewChangeHandler.java
+│       │   │                   │
+│       │   │                   ├───resources
+│       │   │                   │       peers.xml
+│       │   │                   │
+│       │   │                   ├───secure_keys
+│       │   │                   │       MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+dxOfwfdUAHpcM5dCy42BAs6o2ZXPSG6LoSyPihUP9MHta3wjI3zBGBZxi6wIOoOsLZx7O+jngoGTUh7diKJhA==_private.key
+│       │   │                   │       MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+dxOfwfdUAHpcM5dCy42BAs6o2ZXPSG6LoSyPihUP9MHta3wjI3zBGBZxi6wIOoOsLZx7O+jngoGTUh7diKJhA==_public.key
+│       │   │                   │
+│       │   │                   ├───smartcontract
+│       │   │                   │       Account.java
+│       │   │                   │       Evm.java
+│       │   │                   │       EvmState.java
+│       │   │                   │       GasManager.java
+│       │   │                   │       MainEVM.java
+│       │   │                   │       Memory.java
+│       │   │                   │       Opcode.java
+│       │   │                   │       Stack.java
+│       │   │                   │
+│       │   │                   ├───state
+│       │   │                   │       BlockchainState.java
+│       │   │                   │       BlockManager.java
+│       │   │                   │       MerkleTrie.java
+│       │   │                   │       State.java
+│       │   │                   │       StateDB.java
+│       │   │                   │       StateManager.java
+│       │   │                   │       StateObject.java
+│       │   │                   │       StateTransition.java
+│       │   │                   │       WorldState.java
+│       │   │                   │
+│       │   │                   ├───storage
+│       │   │                   │       MemoryStore.java
+│       │   │                   │       Storage.java
+│       │   │                   │
+│       │   │                   ├───types
+│       │   │                   │       Address.java
+│       │   │                   │       ByteSerializable.java
+│       │   │                   │       Hash.java
+│       │   │                   │       List.java
+│       │   │                   │
+│       │   │                   └───wallet
+│       │   │                           KeyUtils.java
+│       │   │                           TransactionBuilder.java
+│       │   │                           Wallet.java
+│       │   │                           WalletStorage.java
+│       │   │
+│       │   └───resources
+│       └───test
+│           ├───java
+│           │   └───org
+│           │       └───example
+│           │           └───app
+│           │                   MessageUtilsTest.java
+│           │
+│           └───resources

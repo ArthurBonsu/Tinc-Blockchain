@@ -1,6 +1,8 @@
 package org.example.app.core.encoder;
 
 import java.io.*;
+import org.example.app.core.block.Transaction; // Import Transaction class
+import org.example.app.core.block.Block; // Import Block class
 
 // Encoder interface
 interface Encoder<T> {

@@ -1,7 +1,9 @@
 package org.example.app.core.consensus;
 
-
 import org.example.app.core.types.Hash;
+import org.example.app.core.block.Block;
+import org.example.app.core.block.BlockHeader; // Import BlockHeader directly
+import org.example.app.core.block.Transaction; // Import Transaction
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,9 +15,9 @@ interface Hasher<T> {
 }
 
 // BlockHasher implementation
-class BlockHasher implements Hasher<Block.Header> {
+class BlockHasher implements Hasher<BlockHeader> { // Change to use BlockHeader directly
     @Override
-    public Hash hash(Block.Header header) throws Exception {
+    public Hash hash(BlockHeader header) throws Exception { // Change parameter type
         byte[] headerBytes = header.toBytes();
         byte[] hash = sha256(headerBytes);
         return new Hash(hash);

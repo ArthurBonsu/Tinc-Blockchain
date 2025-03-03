@@ -2,14 +2,14 @@ package org.example.app.core.internal;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.Logger as JavaLogger; // Use an alias to avoid naming conflict
 
-public class Logger {
+public class CustomLogger { // Rename the class to avoid conflict
 
-    private java.util.logging.Logger logger;
+    private JavaLogger logger; // Use the aliased import
 
-    public Logger(String name) {
-        this.logger = java.util.logging.Logger.getLogger(name);
+    public CustomLogger(String name) { // Update constructor name
+        this.logger = JavaLogger.getLogger(name);
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(Level.ALL);
         logger.addHandler(consoleHandler);

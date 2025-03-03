@@ -1,10 +1,10 @@
 package org.example.app.core.block;
 
 import org.example.app.core.types.Hash;
+import org.example.app.core.consensus.Blockchain; // Correct import for Blockchain
 
 public class BlockValidator implements Validator {
-
-    private final org.example.app.core.consensus.Blockchain blockchain;
+    private final Blockchain blockchain;
 
     public BlockValidator(Blockchain blockchain) {
         this.blockchain = blockchain;
@@ -20,7 +20,7 @@ public class BlockValidator implements Validator {
             }
 
             // Ensure the block's height is exactly one more than the current blockchain height
-            if (blockHeight != blockchain.getHeight()  + 1) {
+            if (blockHeight != blockchain.getHeight() + 1) {
                 throw new IllegalStateException(
                         String.format(
                                 "Invalid block height. Expected: %d, Found: %d",
@@ -47,7 +47,6 @@ public class BlockValidator implements Validator {
 
             // Block is valid
             return true;
-
         } catch (Exception e) {
             System.err.println("Block validation failed: " + e.getMessage());
             return false;

@@ -1,5 +1,7 @@
 package org.example.app.core.block;
 
+import org.example.app.core.eth.EthereumMiner; // Add this import
+
 public class Miner {
     private EthereumMiner miner;
 
