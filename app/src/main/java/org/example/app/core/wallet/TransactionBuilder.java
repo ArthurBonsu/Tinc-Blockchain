@@ -1,9 +1,9 @@
-// TransactionBuilder.java
 package org.example.app.core.wallet;
 
 import java.math.BigInteger;
 import java.security.PrivateKey;
 import java.time.Instant;
+import org.example.app.core.block.Transaction; // Add import for Transaction
 
 public class TransactionBuilder {
     private String from;
@@ -101,5 +101,18 @@ public class TransactionBuilder {
         if (gasLimit == null || gasLimit.compareTo(BigInteger.ZERO) <= 0) {
             throw new IllegalStateException("Invalid gas limit");
         }
+    }
+
+    // Optional: Add a method to reset the builder for reuse
+    public TransactionBuilder reset() {
+        this.from = null;
+        this.to = null;
+        this.value = BigInteger.ZERO;
+        this.gasPrice = BigInteger.valueOf(1_000_000_000);
+        this.gasLimit = BigInteger.valueOf(21000);
+        this.data = new byte[0];
+        this.nonce = 0;
+        this.privateKey = null;
+        return this;
     }
 }

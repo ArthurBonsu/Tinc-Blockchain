@@ -2,6 +2,8 @@ package org.example.app.core.wallet;
 
 import java.security.*;
 import java.util.HashMap;
+import java.math.BigInteger;
+import org.example.app.core.block.Transaction; // Add import for Transaction
 
 public class Wallet {
     private final KeyPair keyPair;
@@ -10,10 +12,8 @@ public class Wallet {
     private long balance;
 
     public Wallet() throws Exception {
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("EC");
-        SecureRandom random = SecureRandom.getInstanceStrong();
-        keyGen.initialize(256, random);
-        this.keyPair = keyGen.generateKeyPair();
+        // Use KeyUtils for key generation
+        this.keyPair = KeyUtils.generateKeyPair();
         this.transactions = new HashMap<>();
         this.nonce = 0;
         this.balance = 0;
@@ -23,17 +23,18 @@ public class Wallet {
         if (amount + gasPrice > balance) {
             throw new IllegalStateException("Insufficient funds");
         }
-        
-        Transaction tx = new Transaction(
-            getAddress(),
-            to,
-            amount,
-            nonce++,
-            gasPrice
-        );
-        
-        // Sign transaction
-        tx.sign(keyPair.getPrivate());
+
+        // Use TransactionBuilder for creating transactions
+        TransactionBuilder builder = new TransactionBuilder();
+        Transaction tx = builder
+                .from(getAddress())
+                .to(to)
+                .value(BigInteger.valueOf(amount))
+                .gasPrice(BigInteger.valueOf(gasPrice))
+                .nonce(nonce++)
+                .privateKey(keyPair.getPrivate())
+                .build();
+
         transactions.put(tx.getHash(), tx);
         return tx;
     }
@@ -41,5 +42,22 @@ public class Wallet {
     public String getAddress() {
         // Generate address from public key
         return KeyUtils.getAddress(keyPair.getPublic());
+    }
+
+    // Additional wallet methods
+    public void updateBalance(long newBalance) {
+        this.balance = newBalance;
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    public HashMap<String, Transaction> getTransactions() {
+        return new HashMap<>(transactions);
+    }
+
+    public Transaction getTransaction(String hash) {
+        return transactions.get(hash);
     }
 }

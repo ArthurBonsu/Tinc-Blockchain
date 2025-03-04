@@ -3,7 +3,8 @@ package org.example.app.core.mempool;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.PriorityQueue;
 import java.util.Comparator;
-import  org.example.app.core.types.*;
+import org.example.app.core.types.*; // Keep existing types import
+import org.example.app.core.block.Transaction; // Add Transaction import
 
 public class TransactionPool {
     private final ConcurrentHashMap<String, Transaction> txPool;
@@ -31,5 +32,14 @@ public class TransactionPool {
 
     public Transaction getPendingTransaction() {
         return pendingTxs.poll();
+    }
+
+    public int size() {
+        return txPool.size();
+    }
+
+    public void clear() {
+        txPool.clear();
+        pendingTxs.clear();
     }
 }

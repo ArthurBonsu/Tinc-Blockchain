@@ -1,10 +1,10 @@
-// TransactionPriorityQueue.java
 package org.example.app.core.mempool;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.concurrent.locks.ReentrantLock;
 import java.math.BigInteger;
+import org.example.app.core.block.Transaction; // Add import for Transaction
 
 public class TransactionPriorityQueue {
     private final PriorityQueue<Transaction> queue;
@@ -15,9 +15,9 @@ public class TransactionPriorityQueue {
         this.maxSize = maxSize;
         this.lock = new ReentrantLock();
         this.queue = new PriorityQueue<>(Comparator
-            .comparing(Transaction::getGasPrice)
-            .reversed()
-            .thenComparing(Transaction::getNonce));
+                .comparing(Transaction::getGasPrice)
+                .reversed()
+                .thenComparing(Transaction::getNonce));
     }
 
     public boolean add(Transaction tx) {
@@ -25,8 +25,8 @@ public class TransactionPriorityQueue {
         try {
             if (queue.size() >= maxSize) {
                 Transaction lowestPriority = queue.peek();
-                if (lowestPriority != null && 
-                    lowestPriority.getGasPrice().compareTo(tx.getGasPrice()) >= 0) {
+                if (lowestPriority != null &&
+                        lowestPriority.getGasPrice().compareTo(tx.getGasPrice()) >= 0) {
                     return false;
                 }
                 queue.poll();
@@ -48,5 +48,18 @@ public class TransactionPriorityQueue {
 
     public int size() {
         return queue.size();
+    }
+
+    public void clear() {
+        lock.lock();
+        try {
+            queue.clear();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
     }
 }

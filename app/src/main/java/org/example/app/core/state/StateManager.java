@@ -2,9 +2,9 @@ package org.example.app.core.state;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.math.BigInteger; // Add import for BigInteger
 
 public class StateManager {
-
     private StateDB stateDB;
 
     public StateManager(StateDB stateDB) {
@@ -32,5 +32,20 @@ public class StateManager {
     // Remove a state object
     public void removeState(String address) {
         stateDB.remove(address);
+    }
+
+    // Check if a state exists for an address
+    public boolean stateExists(String address) {
+        return stateDB.get(address) != null;
+    }
+
+    // Update balance for an existing state
+    public void updateBalance(String address, BigInteger balanceChange) {
+        StateObject currentState = stateDB.get(address);
+        if (currentState != null) {
+            BigInteger currentBalance = currentState.getBalance();
+            currentState.setBalance(currentBalance.add(balanceChange));
+            stateDB.put(address, currentState);
+        }
     }
 }

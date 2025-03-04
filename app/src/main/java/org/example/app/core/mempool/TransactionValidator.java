@@ -1,7 +1,7 @@
-// TransactionValidator.java
 package org.example.app.core.mempool;
 
 import java.math.BigInteger;
+import org.example.app.core.block.Transaction; // Add import for Transaction
 
 public class TransactionValidator {
     private final MempoolConfig config;
@@ -45,5 +45,11 @@ public class TransactionValidator {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // Additional validation methods can be added here
+    public boolean isBalanceSufficient(Transaction tx, BigInteger senderBalance) {
+        BigInteger totalCost = tx.getValue().add(tx.getGasPrice().multiply(BigInteger.valueOf(tx.getGasLimit())));
+        return senderBalance.compareTo(totalCost) >= 0;
     }
 }

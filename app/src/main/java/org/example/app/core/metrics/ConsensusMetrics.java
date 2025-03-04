@@ -1,10 +1,10 @@
-// ConsensusMetrics.java
 package org.example.app.core.metrics;
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.time.Instant;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
+import org.example.app.core.block.Block; // Add import for Block
 
 public class ConsensusMetrics {
     private final AtomicLong blockHeight;
@@ -25,17 +25,17 @@ public class ConsensusMetrics {
         blockHeight.incrementAndGet();
         totalTransactions.addAndGet(block.getTransactions().size());
         updateBlockTime();
-        
+
         // Update validator metrics
         validatorMetrics.computeIfAbsent(validator, k -> new AtomicLong(0))
-                       .incrementAndGet();
+                .incrementAndGet();
     }
 
     private void updateBlockTime() {
         Instant now = Instant.now();
         long newBlockTime = now.toEpochMilli() - lastBlockTime.toEpochMilli();
         lastBlockTime = now;
-        
+
         long currentAvg = averageBlockTime.get();
         if (currentAvg == 0) {
             averageBlockTime.set(newBlockTime);
@@ -45,16 +45,28 @@ public class ConsensusMetrics {
     }
 
     public void recordConsensusFailure(String reason) {
-        // Implement consensus failure tracking
+        // Placeholder for consensus failure tracking
+        // You might want to implement a more sophisticated tracking mechanism
+        System.err.println("Consensus failure: " + reason);
     }
 
     // Getters
     public long getBlockHeight() { return blockHeight.get(); }
     public long getTotalTransactions() { return totalTransactions.get(); }
     public long getAverageBlockTime() { return averageBlockTime.get(); }
+
     public Map<String, Long> getValidatorMetrics() {
         Map<String, Long> metrics = new ConcurrentHashMap<>();
         validatorMetrics.forEach((k, v) -> metrics.put(k, v.get()));
         return metrics;
+    }
+
+    // Optional: Reset method
+    public void reset() {
+        blockHeight.set(0);
+        totalTransactions.set(0);
+        averageBlockTime.set(0);
+        validatorMetrics.clear();
+        lastBlockTime = Instant.now();
     }
 }

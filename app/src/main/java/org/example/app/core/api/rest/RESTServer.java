@@ -1,8 +1,13 @@
-// RESTServer.java
 package org.example.app.core.api.rest;
 
 import com.sun.net.httpserver.HttpServer;
 import org.example.app.core.consensus.Blockchain;
+import org.example.app.core.api.handlers.BlockHandler;
+import org.example.app.core.api.handlers.LatestBlockHandler;
+import org.example.app.core.api.handlers.TransactionHandler;
+import org.example.app.core.api.handlers.PendingTransactionHandler;
+import org.example.app.core.api.handlers.AccountHandler;
+
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
@@ -23,11 +28,11 @@ public class RESTServer {
         // Block endpoints
         server.createContext("/api/v1/block", new BlockHandler(blockchain));
         server.createContext("/api/v1/block/latest", new LatestBlockHandler(blockchain));
-        
+
         // Transaction endpoints
         server.createContext("/api/v1/tx", new TransactionHandler(blockchain));
         server.createContext("/api/v1/tx/pending", new PendingTransactionHandler(blockchain));
-        
+
         // Account endpoints
         server.createContext("/api/v1/account", new AccountHandler(blockchain));
     }
@@ -39,5 +44,11 @@ public class RESTServer {
 
     public void stop() {
         server.stop(0);
+        System.out.println("REST Server stopped");
+    }
+
+    // Optional: Add method to get current port
+    public int getPort() {
+        return port;
     }
 }

@@ -2,6 +2,7 @@ package org.example.app.core.state;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.example.app.core.block.Block; // Add import for Block
 
 public class BlockchainState {
 
@@ -25,5 +26,19 @@ public class BlockchainState {
     public int getBlockCount() {
         return blocks.size();
     }
+
+    // Remove a block by its hash
+    public void removeBlock(String blockHash) {
+        blocks.remove(blockHash);
+    }
+
+    // Check if a block exists
+    public boolean hasBlock(String blockHash) {
+        return blocks.containsKey(blockHash);
+    }
+
+    // Clear all blocks
+    public void clear() {
+        blocks.clear();
+    }
 }
- 

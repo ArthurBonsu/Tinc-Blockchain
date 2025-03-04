@@ -1,4 +1,3 @@
-// BlockHandler.java
 package org.example.app.core.api.handlers;
 
 import com.sun.net.httpserver.HttpHandler;
@@ -33,10 +32,32 @@ public class BlockHandler implements HttpHandler {
 
     private void handleGetRequest(HttpExchange exchange) throws IOException {
         String query = exchange.getRequestURI().getQuery();
-        String blockHash = getQueryParam(query, "hash");
-        
+        String blockHashParam = getQueryParam(query, "hash");
+        String blockHeightParam = getQueryParam(query, "height");
+
         try {
-            Block block = blockchain.getBlock(blockHash);
+            Block block = null;
+
+            // Try to get block by hash
+            if (blockHashParam != null) {
+                block = findBlockByHash(blockHashParam);
+            }
+            // Try to get block by height
+            else if (blockHeightParam != null) {
+                try {
+                    int blockHeight = Integer.parseInt(blockHeightParam);
+                    block = getBlockByHeight(blockHeight);
+                } catch (NumberFormatException e) {
+                    sendResponse(exchange, 400, "Invalid block height");
+                    return;
+                }
+            }
+            // If no parameters provided
+            else {
+                // Get the latest block or return an error
+                block = blockchain.getLatestBlock();
+            }
+
             if (block != null) {
                 String response = gson.toJson(block);
                 sendResponse(exchange, 200, response);
@@ -46,6 +67,20 @@ public class BlockHandler implements HttpHandler {
         } catch (Exception e) {
             sendResponse(exchange, 400, "Invalid request: " + e.getMessage());
         }
+    }
+
+    // Helper method to find block by hash
+    private Block findBlockByHash(String blockHash) {
+        // Placeholder method - implement actual block lookup by hash
+        // You'll need to add this method to your Blockchain class
+        return null;
+    }
+
+    // Helper method to get block by height
+    private Block getBlockByHeight(int height) {
+        // Placeholder method - implement actual block retrieval by height
+        // This might use a method like getBlockAtHeight() or similar
+        return null;
     }
 
     private void sendResponse(HttpExchange exchange, int statusCode, String response) throws IOException {

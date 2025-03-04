@@ -1,4 +1,3 @@
-// WalletStorage.java
 package org.example.app.core.wallet;
 
 import com.google.gson.Gson;
@@ -14,6 +13,8 @@ import java.security.*;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.math.BigInteger; // Add import for BigInteger
+import java.util.stream.StreamSupport;
 
 public class WalletStorage {
     private final Path walletPath;
@@ -27,7 +28,7 @@ public class WalletStorage {
         this.gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
-        
+
         if (!Files.exists(walletPath)) {
             try {
                 Files.createDirectories(walletPath);
@@ -84,10 +85,10 @@ public class WalletStorage {
 
     private SecretKey deriveKey(String password, byte[] salt) throws Exception {
         PBEKeySpec spec = new PBEKeySpec(
-            password.toCharArray(), 
-            salt, 
-            ITERATIONS, 
-            KEY_LENGTH
+                password.toCharArray(),
+                salt,
+                ITERATIONS,
+                KEY_LENGTH
         );
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
         byte[] keyBytes = factory.generateSecret(spec).getEncoded();
@@ -141,8 +142,8 @@ public class WalletStorage {
     public String[] listWallets() throws IOException {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(walletPath, "*.json")) {
             return StreamSupport.stream(stream.spliterator(), false)
-                .map(path -> path.getFileName().toString().replace(".json", ""))
-                .toArray(String[]::new);
+                    .map(path -> path.getFileName().toString().replace(".json", ""))
+                    .toArray(String[]::new);
         }
     }
 }
