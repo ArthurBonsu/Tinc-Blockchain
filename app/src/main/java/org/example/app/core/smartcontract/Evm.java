@@ -2,19 +2,48 @@ package org.example.app.core.smartcontract;
 
 import org.example.app.core.block.Transaction;
 import org.example.app.core.types.Address;
-
-
-
 import java.util.Stack;
 
 public class Evm {
-
     private final Stack<Integer> stack = new Stack<>();
     private final Memory memory = new Memory();
     private final GasManager gasManager = new GasManager();
     private final EvmState state;
     private int pc = 0; // Program Counter
     private boolean running = true;
+
+    // Enum for Opcodes
+    public enum Opcode {
+        STOP(0x00, 0),
+        ADD(0x01, 3),
+        MUL(0x02, 5),
+        SSTORE(0x55, 20000),
+        SLOAD(0x54, 2100),
+        RETURN(0xf3, 0),
+        JUMP(0x56, 8),
+        JUMPI(0x57, 10);
+
+        private final int value;
+        private final int gasCost;
+
+        Opcode(int value, int gasCost) {
+            this.value = value;
+            this.gasCost = gasCost;
+        }
+
+        public static Opcode fromValue(byte value) {
+            for (Opcode opcode : values()) {
+                if (opcode.value == (value & 0xFF)) {
+                    return opcode;
+                }
+            }
+            throw new IllegalArgumentException("Unknown opcode: " + String.format("0x%02X", value));
+        }
+
+        public int getGasCost() {
+            return gasCost;
+        }
+    }
 
     public Evm(EvmState state) {
         this.state = state;
@@ -26,7 +55,9 @@ public class Evm {
     }
 
     public void execute(byte[] bytecode, Transaction tx) {
-        gasManager.setInitialGas(tx.getGasLimit());
+        // Use gasLimit field directly
+        int gasLimit = tx.getGasLimit();
+        gasManager.setInitialGas(gasLimit);
 
         while (running && pc < bytecode.length) {
             try {
@@ -53,12 +84,20 @@ public class Evm {
                         // POP key and value, store them in state
                         int storeKey = stack.pop();
                         int storeValue = stack.pop();
-                        state.store(tx.getTo().toString(), String.valueOf(storeKey), String.valueOf(storeValue));
+                        // Use recipient as contract address
+                        state.store(
+                                tx.getRecipient(),
+                                String.valueOf(storeKey),
+                                String.valueOf(storeValue)
+                        );
                         break;
                     case SLOAD:
                         // POP key, load the value from state and PUSH it
                         int loadKey = stack.pop();
-                        String loadedValue = state.load(tx.getTo().toString(), String.valueOf(loadKey));
+                        String loadedValue = state.load(
+                                tx.getRecipient(),
+                                String.valueOf(loadKey)
+                        );
                         stack.push(Integer.parseInt(loadedValue));
                         break;
                     case RETURN:
@@ -86,5 +125,5 @@ public class Evm {
                 running = false;
             }
         }
-    }}
-
+    }
+}

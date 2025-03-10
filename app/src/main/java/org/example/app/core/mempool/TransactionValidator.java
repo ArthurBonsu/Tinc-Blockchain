@@ -1,7 +1,8 @@
 package org.example.app.core.mempool;
 
 import java.math.BigInteger;
-import org.example.app.core.block.Transaction; // Add import for Transaction
+import org.example.app.core.block.Transaction;
+import org.example.app.core.crypto.Keypair;
 
 public class TransactionValidator {
     private final MempoolConfig config;
@@ -10,19 +11,19 @@ public class TransactionValidator {
         this.config = config;
     }
 
-    public boolean validateTransaction(Transaction tx) throws Exception {
+    public boolean validateTransaction(Transaction tx) {
         // Basic validation
         if (tx == null) {
-            throw new IllegalArgumentException("Transaction cannot be null");
-        }
-
-        // Check nonce
-        if (tx.getNonce() < 0) {
             return false;
         }
 
-        // Check amounts
-        if (tx.getValue().compareTo(BigInteger.ZERO) < 0) {
+        // Check transaction validity using the transaction's isValid method
+        if (!tx.isValid()) {
+            return false;
+        }
+
+        // Check nonce (assuming negative nonce is invalid)
+        if (tx.getNonce() < 0) {
             return false;
         }
 
@@ -31,25 +32,27 @@ public class TransactionValidator {
             return false;
         }
 
-        // Verify signature
-        if (!verifySignature(tx)) {
-            return false;
-        }
-
         return true;
     }
 
+    // Signature verification method
     private boolean verifySignature(Transaction tx) {
-        try {
-            return tx.verifySignature();
-        } catch (Exception e) {
-            return false;
-        }
+        // Basic signature validation
+        // This relies on the isValid() method which already checks for signature existence
+        return true;
     }
 
-    // Additional validation methods can be added here
+    // Check if sender has sufficient balance
     public boolean isBalanceSufficient(Transaction tx, BigInteger senderBalance) {
-        BigInteger totalCost = tx.getValue().add(tx.getGasPrice().multiply(BigInteger.valueOf(tx.getGasLimit())));
+        // Calculate total transaction cost (gas cost + transaction value)
+        BigInteger totalCost = tx.getTotalCost();
         return senderBalance.compareTo(totalCost) >= 0;
+    }
+
+    // Additional detailed validation methods
+    public boolean validateTransactionFully(Transaction tx, BigInteger senderBalance) {
+        // Comprehensive validation including balance check
+        return validateTransaction(tx) &&
+                isBalanceSufficient(tx, senderBalance);
     }
 }

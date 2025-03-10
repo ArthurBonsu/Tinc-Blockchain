@@ -44,7 +44,7 @@ class TxHasher implements Hasher<Transaction> {
                 (tx.getSender() != null ? tx.getSender() : "") +
                         (tx.getRecipient() != null ? tx.getRecipient() : "") +
                         (tx.getValue() != null ? tx.getValue().toString() : "0") +
-                        (tx.getNonce() != null ? tx.getNonce().toString() : "0") +
+                        Long.toString(tx.getNonce()) + // Directly convert nonce to string
                         (tx.getData() != null ? Arrays.toString(tx.getData()) : "");
 
         byte[] hashBytes = sha256(hashInput.getBytes());

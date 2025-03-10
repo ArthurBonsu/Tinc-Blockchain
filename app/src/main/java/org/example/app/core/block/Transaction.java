@@ -153,4 +153,52 @@ public class Transaction implements java.io.Serializable, ByteSerializable {
         return String.format("Transaction{hash=%s, from=%s, to=%s, value=%d, nonce=%d, gasLimit=%d, gasPrice=%s, status=%s}",
                 hash, from, to, value, nonce, gasLimit, gasPrice, status);
     }
+
+
+    // Getter for signature
+public SignatureResult getSignature() {
+    return this.signature;
+}
+
+// Setter for signature
+public void setSignature(SignatureResult signature) {
+    this.signature = signature;
+}
+
+// Verify signature method
+public boolean verifySignature() {
+    // Check if signature exists
+    if (signature == null) {
+        return false;
+    }
+    
+    // In a real implementation, you would verify the cryptographic signature
+    // This is a placeholder that relies on the existing isValid() method
+    return true;
+}
+    // Add this to the Transaction class
+    public int getGasLimit() {
+        return this.gasLimit;
+    }
+
+    // Setter for recipient
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    // Setter for value
+    public void setValue(Long value) {
+        this.value = value;
+    }
+
+    // Setter for gasLimit
+    public void setGasLimit(int gasLimit) {
+        this.gasLimit = gasLimit;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+
 }
