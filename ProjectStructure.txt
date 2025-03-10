@@ -1,4 +1,7 @@
-C:\USERS\BONSU\DOCUMENTS\TINC MEETING\TINC BLOCKCHAIN\TINC-BLOCKCHAIN\APP
+C:\Users\Bonsu\Documents\TINC MEETING\tinc blockchain\Tinc-Blockchain\app>tree /F
+Folder PATH listing for volume 系统
+Volume serial number is BE93-1D8D
+C:.
 │   build.gradle
 │
 ├───build
@@ -235,6 +238,8 @@ C:\USERS\BONSU\DOCUMENTS\TINC MEETING\TINC BLOCKCHAIN\TINC-BLOCKCHAIN\APP
 │   │                   org.example.app.html
 │   │
 │   ├───resources
+│   │   ├───main
+│   │   └───test
 │   ├───scripts
 │   │       app
 │   │       app.bat
@@ -466,6 +471,12 @@ C:\USERS\BONSU\DOCUMENTS\TINC MEETING\TINC BLOCKCHAIN\TINC-BLOCKCHAIN\APP
     │   │                   │       MemoryStore.java
     │   │                   │       Storage.java
     │   │                   │
+    │   │                   ├───test
+    │   │                   │   └───org
+    │   │                   │       └───example
+    │   │                   │           └───app
+    │   │                   │               └───core
+    │   │                   │                   └───consensus
     │   │                   ├───types
     │   │                   │       Address.java
     │   │                   │       ByteSerializable.java
@@ -484,6 +495,13 @@ C:\USERS\BONSU\DOCUMENTS\TINC MEETING\TINC BLOCKCHAIN\TINC-BLOCKCHAIN\APP
         │   └───org
         │       └───example
         │           └───app
-        │                   MessageUtilsTest.java
+        │               │   MessageUtilsTest.java
+        │               │
+        │               └───core
+        │                   ├───block
+        │                   │       BlockTest.java
+        │                   │
+        │                   └───consensus
+        │                           BlockTest.java
         │
         └───resources

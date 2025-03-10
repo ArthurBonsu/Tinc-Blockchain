@@ -2,7 +2,6 @@ package org.example.app.core.block;
 
 import java.util.List;
 import java.util.Arrays;
-import org.example.app.core.block.Transaction;
 
 public class Block {
     private String hash;
@@ -11,11 +10,12 @@ public class Block {
     private long timestamp;
     private long difficulty;
     private long number;
-    private List<Transaction> transactions;  // Changed from String[] to List<Transaction>
+    private List<Transaction> transactions;
     private byte[] stateRoot;
 
-    public Block(String hash, String parentHash, String miner, long timestamp, 
-                long difficulty, long number, List<Transaction> transactions) {
+    // Constructor
+    public Block(String hash, String parentHash, String miner, long timestamp,
+                 long difficulty, long number, List<Transaction> transactions) {
         this.hash = hash;
         this.parentHash = parentHash;
         this.miner = miner;
@@ -23,8 +23,10 @@ public class Block {
         this.difficulty = difficulty;
         this.number = number;
         this.transactions = transactions;
+        this.stateRoot = null;
     }
 
+    // Getters and Setters
     public String getHash() {
         return hash;
     }
@@ -98,8 +100,9 @@ public class Block {
                 ", timestamp=" + timestamp +
                 ", difficulty=" + difficulty +
                 ", number=" + number +
-                ", transactions=" + transactions +
-                ", stateRoot=" + Arrays.toString(stateRoot) +
-                '}';
+                ", transactions=[" +
+                (transactions != null && !transactions.isEmpty() ?
+                        transactions.get(0).toString() : "") +
+                "], stateRoot=null}";
     }
 }
