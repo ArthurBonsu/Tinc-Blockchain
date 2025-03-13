@@ -124,7 +124,7 @@ class BlockTest {
         assertEquals(1, block.getTransactions().size(), "New transaction list size should be 1");
         assertEquals(newTransaction, block.getTransactions().get(0), "New transaction should match");
     }
-let;s test here for the same time as the same ones
+
     @Test
     void testToString() {
         String expectedString = "Block{" +
