@@ -1,0 +1,16 @@
+1. Contributions are well specified 
+git remote set-url origin https://ArthurBonsu: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@github.com/ArthurBonsu/Tinc-Blockchain.git
+
+
+git remote add origin https://<YOUR_GITHUB_USERNAME>:<YOUR_PERSONAL_ACCESS_TOKEN>@github.com/ArthurBonsu/Tinc-Blockchain.git
+
+git remote add origin https://ArthurBonsu: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@github.com/ArthurBonsu/Tinc-Blockchain.git
+
+ssh-keygen -t rsa -b 4096 -C peeman34@gmail.com
+
+Bonsu@DESKTOP-KVECFDS MINGW64 ~/Documents/TINC MEETING/tinc blockchain/Tinc-Blockchain (main)
+$ eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+Agent pid 347
+Identity added: /c/Users/Bonsu/.ssh/id_rsa (peeman34@gmail.com)
+
