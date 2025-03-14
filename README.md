@@ -170,4 +170,4 @@ To get everything configured and to test files within a specific module.
 
 --- 
 
-You can now copy and paste this into your GitHub instructions or readme file.
+
