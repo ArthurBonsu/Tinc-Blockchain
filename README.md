@@ -168,6 +168,10 @@ To get everything configured and to test files within a specific module.
 - Follow the naming conventions strictly to maintain consistency across the project.
 - Be sure to commit to the correct branch unless given explicit permission to merge to `main`.
 
+- Considerations
+- Account for uninitialized values
+- Other error considerations
+
 --- 
 
 
