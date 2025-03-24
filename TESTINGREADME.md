@@ -1,7 +1,7 @@
 # Project Setup & Testing Guide
 
 ## **1. Load Project Structure**
-Before proceeding, ensure that you provide the AI agent with the project structure by uploading **ProjectStructure.txt**. This will help maintain consistency across the project, especially between the `main` and `test` folders.
+Before proceeding, ensure that you provide the AI agent with the project structure by uploading **ProjectStructure.txt** and the files within the main folder itself. This will help maintain consistency across the project, especially between the `main` and `test` folders.
 
 ## **2. Create Base Test File**
 A **BaseTest** file should be included in the `test` folder, following the provided format. The test file should align with the structure and purpose of the files in the `main` folder.
