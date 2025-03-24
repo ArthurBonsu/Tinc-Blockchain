@@ -4,7 +4,7 @@ Step 1: Expire Reflog Entries
 
 To ensure that any large file references in Git history are expired, run:
 
-### git reflog expire --expire=now --all
+git reflog expire --expire=now --all
 
 This removes any saved references to previous commits that might still contain large files.
 
