@@ -13,18 +13,14 @@ This removes any saved references to previous commits that might still contain l
 Step 2: Perform Garbage Collection
 To clean up unnecessary files and optimize the repository, execute:
 
-bash
-Copy
-Edit
+
 git gc --prune=now --aggressive
 This command aggressively removes unnecessary files and compresses the repository.
 
 Step 3: Force Push Cleaned Repository to GitHub
 After cleaning up the repository, push the changes forcefully to override previous commits:
 
-bash
-Copy
-Edit
+
 git push --force origin main
 This ensures that the large files are completely removed from GitHub.
 
