@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.list.LinkedListTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-03-10T11:43:25.592Z" hostname="DESKTOP-KVECFDS" time="0.018">
+  <properties/>
+  <testcase name="testAdd()" classname="org.example.list.LinkedListTest" time="0.014"/>
+  <testcase name="testRemoveMissing()" classname="org.example.list.LinkedListTest" time="0.001"/>
+  <testcase name="testRemove()" classname="org.example.list.LinkedListTest" time="0.001"/>
+  <testcase name="testConstructor()" classname="org.example.list.LinkedListTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

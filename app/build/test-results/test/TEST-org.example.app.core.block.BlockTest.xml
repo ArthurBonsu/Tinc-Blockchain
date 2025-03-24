@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.app.core.block.BlockTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2025-03-24T09:15:51.792Z" hostname="DESKTOP-KVECFDS" time="0.028">
+  <properties/>
+  <testcase name="testBlockSetters()" classname="org.example.app.core.block.BlockTest" time="0.002"/>
+  <testcase name="testWalletGeneration()" classname="org.example.app.core.block.BlockTest" time="0.001"/>
+  <testcase name="testTransactionCreation()" classname="org.example.app.core.block.BlockTest" time="0.002"/>
+  <testcase name="testBlockValidation()" classname="org.example.app.core.block.BlockTest" time="0.002"/>
+  <testcase name="testToString()" classname="org.example.app.core.block.BlockTest" time="0.01"/>
+  <testcase name="testBlockStateRoot()" classname="org.example.app.core.block.BlockTest" time="0.001"/>
+  <testcase name="testTransactionModification()" classname="org.example.app.core.block.BlockTest" time="0.001"/>
+  <testcase name="testTransactionManagement()" classname="org.example.app.core.block.BlockTest" time="0.001"/>
+  <testcase name="testBlockCreation()" classname="org.example.app.core.block.BlockTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
