@@ -501,8 +501,7 @@ C:.
         │                   ├───block
         │                   │       BlockTest.java
         │                   │
-        │                   └───consensus
-        │                           BlockTest.java
+        │                 
                             └───resources
         │                           P2PNetworkTest.java
                                     RealNetworkManager.java
