@@ -187,21 +187,15 @@ This test suite ensures proper wallet initialization, balance verification, loca
 - The test explicitly asserts this with:
   ```java
   assertEquals(BigInteger.ZERO, balance, "New wallet should have zero balance");
-3. Running from a Single PC
-The tests are designed to run locally without requiring an external network connection.
 
-A local test directory (test-wallets) is used for storage.
+### 3. Running from a Single PC
+- The tests are designed to **run locally** without requiring an external network connection.
+- A local test directory (**`test-wallets`**) is used for storage.
+- Each test operates **independently**, avoiding dependencies on external resources.
+- Each test creates a **unique wallet file** to prevent conflicts.
+- **Cleanup logic** ensures that test files are removed after execution.
 
-Each test operates independently, avoiding dependencies on external resources.
-
-Each test creates a unique wallet file to prevent conflicts.
-
-Cleanup logic ensures that test files are removed after execution.
-
-4. Error Handling
-Try-catch blocks are used to handle and report exceptions gracefully.
-
-testWalletSecurity() explicitly tests for incorrect password handling.
-
-The tearDown() method ensures proper cleanup, even if tests fail
-
+### 4. Error Handling
+- **Try-catch blocks** are used to handle and report exceptions gracefully.
+- `testWalletSecurity()` explicitly tests for **incorrect password handling**.
+- The **`tearDown
