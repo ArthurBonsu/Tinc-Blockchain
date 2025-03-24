@@ -173,31 +173,28 @@ To get everything configured and to test files within a specific module.
 - Other error considerations
 
 --- 
-Wallet Testing Overview And Consideration
+## Wallet Testing Overview and Considerations
+
 This test suite ensures proper wallet initialization, balance verification, local execution, and robust error handling.
 
-1. No Wallets Initialized
-Each test starts from a clean state by creating a new wallet with a unique identifier.
+### 1. No Wallets Initialized
+- Each test starts from a **clean state**, creating a new wallet with a unique identifier.
+- If wallet initialization fails, the test will fail with an **appropriate error message**.
+- `testCreateAndLoadWallet()` specifically verifies the **wallet initialization process**.
 
-If wallet initialization fails, the test will fail with an appropriate error message.
-
-testCreateAndLoadWallet() specifically verifies the wallet initialization process.
-
-2. No Balance
-testGetAccountBalance() ensures that a newly created wallet has a zero balance.
-
-The test explicitly asserts this with:
-
-
-assertEquals(BigInteger.ZERO, balance, "New wallet should have zero balance");
+### 2. No Balance
+- `testGetAccountBalance()` ensures that a newly created wallet has a **zero balance**.
+- The test explicitly asserts this with:
+  ```java
+  assertEquals(BigInteger.ZERO, balance, "New wallet should have zero balance");
 3. Running from a Single PC
-The tests run locally without requiring an external network connection.
+The tests are designed to run locally without requiring an external network connection.
 
 A local test directory (test-wallets) is used for storage.
 
-All tests operate independently, avoiding dependencies on external resources.
+Each test operates independently, avoiding dependencies on external resources.
 
-Each test generates a unique wallet file to prevent conflicts.
+Each test creates a unique wallet file to prevent conflicts.
 
 Cleanup logic ensures that test files are removed after execution.
 
@@ -206,5 +203,5 @@ Try-catch blocks are used to handle and report exceptions gracefully.
 
 testWalletSecurity() explicitly tests for incorrect password handling.
 
-The tearDown() method ensures proper cleanup, even if tests fail.
+The tearDown() method ensures proper cleanup, even if tests fail
 
