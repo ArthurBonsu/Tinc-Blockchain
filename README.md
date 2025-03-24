@@ -78,8 +78,9 @@ pp
 - **Elvis**:  
   - Merger of Codebase 1 and Codebase 2  
   - Folder Allocation:  
-    - i) `account`  
-    - ii) `block`  
+    - i) `network`  
+    - ii) `p2p`  
+    - iii) `pbftconsensus`  
 - **Sample**:  
   - i) `config`  
   - ii) `consensus`  
@@ -94,9 +95,8 @@ pp
   - iii) `mempool`  
 - **Putra**:  
   - i) `metrics`  
-  - ii) `network`  
-  - iii) `p2p`  
-  - iv) `pbftconsensus`  
+  - ii) `account`  
+  - iii) `block`
 - **Arthur**:  
   - i) `resources`  
   - ii) `secure_keys`  
