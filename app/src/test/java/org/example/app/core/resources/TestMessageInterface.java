@@ -1,4 +1,4 @@
-@ -0,0 +1,25 @@
+
 package org.example.app.core.resources;
 
 /**
