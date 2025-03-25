@@ -1,4 +1,4 @@
-@ -0,0 +1,486 @@
+
 package org.example.app.core.resources;
 
 import org.junit.jupiter.api.*;
