@@ -5,6 +5,9 @@
 build/
 
 app/bin/
+build-logic/bin
+list/bin/
+utilities/bin/
 
 # Ignore the specific large files
 gradle-8.12-bin.zip
