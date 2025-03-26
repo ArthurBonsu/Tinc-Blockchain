@@ -89,6 +89,7 @@ test {
 ```
 Run gradle test.Eg
 gradle test --tests "org.example.app.core.resources.NetworkP2PTest"
+gradle test --tests "org.example.app.core.wallet.WalletTest"
 
 ## **9. Record and Review Test Results**
 - Capture and store test results.
