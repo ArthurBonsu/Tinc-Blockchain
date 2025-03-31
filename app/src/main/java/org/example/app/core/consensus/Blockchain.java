@@ -38,4 +38,16 @@ public class Blockchain {
         }
         return blocks.get(blocks.size() - 1);
     }
+/**
+ * Returns the current length/height of the blockchain
+ * @return int representing the number of blocks in the chain
+ */
+/**
+ * Returns the current length/height of the blockchain
+ * @return int representing the number of blocks in the chain
+ */
+public int getChainLength() {
+    // Simply return the size of the blocks collection
+    return blocks.size();
+}
 }

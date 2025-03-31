@@ -1,3 +1,5 @@
+
+import from p2
 <peers>
     <peer>127.0.0.1:8001</peer>
     <peer>127.0.0.1:8002</peer>

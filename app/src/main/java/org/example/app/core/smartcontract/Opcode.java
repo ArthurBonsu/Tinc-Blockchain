@@ -4,6 +4,7 @@ public enum Opcode {
     STOP(0x00, 0),
     ADD(0x01, 3),
     MUL(0x02, 5),
+    PUSH1(0x60, 3),  // Add PUSH1 opcode
     SLOAD(0x54, 200),
     SSTORE(0x55, 5000),
     CALL(0xF1, 700),
