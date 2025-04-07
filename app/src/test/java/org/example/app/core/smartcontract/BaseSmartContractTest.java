@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigInteger;
-import java.util.Map;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -19,31 +18,60 @@ public class BaseSmartContractTest {
     
     private EvmState evmState;
     private GasManager gasManager;
+    private Evm evm;
 
     @BeforeEach
     public void setUp() {
         // Initialize components before each test
         evmState = new EvmState();
         gasManager = new GasManager();
+        evm = new Evm(evmState);
         
         LOGGER.info("Test setup completed. Initializing EvmState and GasManager.");
     }
 
     /**
      * Create a simple smart contract bytecode for testing
-     * This method demonstrates how to create a basic smart contract
      * @return byte array representing the contract bytecode
      */
     private byte[] createSimpleContract() {
-        // A simple contract that demonstrates basic operations
-        byte[] bytecode = new byte[]{
-            (byte) Evm.Opcode.ADD.ordinal(),    // Add two numbers from stack
-            (byte) Evm.Opcode.SSTORE.ordinal(), // Store the result
-            (byte) Evm.Opcode.RETURN.ordinal()  // Return from contract
+        return new byte[] {
+                (byte) 0x60, 0x05,    // PUSH1 opcode (0x60) and first value (5)
+                (byte) 0x60, 0x07,    // PUSH1 opcode (0x60) and second value (7)
+                (byte) 0x01,          // ADD opcode (0x01)
+                (byte) 0x60, 0x01,    // PUSH1 opcode (0x60) and storage key
+                (byte) 0x55,          // SSTORE opcode (0x55)
+                (byte) 0xF3           // RETURN opcode (0xF3)
         };
-        
-        LOGGER.info("Created simple smart contract bytecode");
-        return bytecode;
+    }
+
+    /**
+     * Create an arithmetic contract bytecode
+     * @return byte array representing the contract bytecode
+     */
+
+    private byte[] createArithmeticContractBytecode() {
+        return new byte[] {
+                (byte) 0x60, 0x05,    // PUSH1 opcode (0x60) and first value (5)
+                (byte) 0x60, 0x07,    // PUSH1 opcode (0x60) and second value (7)
+                (byte) 0x01,          // ADD opcode (0x01)
+                (byte) 0x60, 0x01,    // PUSH1 opcode (0x60) and storage key
+                (byte) 0x55,          // SSTORE opcode (0x55)
+                (byte) 0x00           // STOP opcode (0x00)
+        };
+    }
+
+    /**
+     * Create a storage contract bytecode
+     * @return byte array representing the contract bytecode
+     */
+    private byte[] createStorageContractBytecode() {
+        return new byte[] {
+                (byte) 0x60, 0x2A,    // PUSH1 opcode (0x60) and value 42
+                (byte) 0x60, 0x01,    // PUSH1 opcode (0x60) and storage key 1
+                (byte) 0x55,          // SSTORE opcode (0x55)
+                (byte) 0x00           // STOP opcode (0x00)
+        };
     }
 
     /**
@@ -65,37 +93,78 @@ public class BaseSmartContractTest {
         LOGGER.info("Account creation test completed successfully");
     }
 
+
     /**
-     * Test Smart Contract Deployment and Execution
+     * Test Smart Contract Storage Deployment
      */
     @Test
-    public void testSmartContractDeployment() {
-        LOGGER.info("Starting testSmartContractDeployment");
+    public void testSmartContractStorageDeployment() {
+        LOGGER.info("Starting testSmartContractStorageDeployment");
         
         // Create a contract address
         String contractAddress = "0x1234567890123456789012345678901234567890";
         
-        // Create simple contract bytecode
-        byte[] contractBytecode = createSimpleContract();
+        // Create storage contract bytecode
+        byte[] contractBytecode = createStorageContractBytecode();
         
         // Create a transaction for contract deployment
         Transaction deployTx = new Transaction(contractBytecode);
         deployTx.setRecipient(contractAddress);
-        deployTx.setGasLimit(10000);
+        deployTx.setGasLimit(50000);
         
-        // Initialize EVM
-        Evm evm = new Evm(evmState);
-        
-        // Simulate contract deployment
         try {
-            // Manually push some test values to simulate stack operations 
-            // Note: This is a simplified simulation as the actual stack is internal to the Evm
+            // Execute the contract
             evm.execute(contractBytecode, deployTx);
             
-            LOGGER.info("Smart contract deployed and executed successfully");
+            // Verify contract state
+            String storedValue = evmState.load(contractAddress, "1");
+            assertEquals("42", storedValue, "Contract should store value 42 at key 1");
+            
+            // Check gas consumption
+            int gasConsumed = deployTx.getGasLimit() - evm.getGasManager().getGasRemaining();
+            assertTrue(gasConsumed > 0, "Contract deployment should consume gas");
+            
+            LOGGER.info("Smart contract storage deployment test completed successfully");
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error in smart contract deployment", e);
-            fail("Smart contract deployment failed: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error in smart contract storage deployment", e);
+            fail("Smart contract storage deployment failed: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Test Smart Contract Arithmetic Operation
+     */
+    @Test
+    public void testSmartContractArithmeticOperation() {
+        LOGGER.info("Starting testSmartContractArithmeticOperation");
+        
+        // Create a contract address
+        String contractAddress = "0x9876543210987654321098765432109876543210";
+        
+        // Create arithmetic contract bytecode
+        byte[] contractBytecode = createArithmeticContractBytecode();
+        
+        // Create a transaction for contract deployment
+        Transaction deployTx = new Transaction(contractBytecode);
+        deployTx.setRecipient(contractAddress);
+        deployTx.setGasLimit(50000);
+        
+        try {
+            // Execute the contract
+            evm.execute(contractBytecode, deployTx);
+            
+            // Verify the result of addition is stored
+            String storedResult = evmState.load(contractAddress, "1");
+            assertEquals("12", storedResult, "Contract should store addition result (5 + 7 = 12)");
+            
+            // Check gas consumption
+            int gasConsumed = deployTx.getGasLimit() - evm.getGasManager().getGasRemaining();
+            assertTrue(gasConsumed > 0, "Contract execution should consume gas");
+            
+            LOGGER.info("Arithmetic smart contract test completed successfully");
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error in arithmetic smart contract", e);
+            fail("Arithmetic smart contract failed: " + e.getMessage());
         }
     }
 
@@ -176,30 +245,29 @@ public class BaseSmartContractTest {
     /**
      * Comprehensive Smart Contract Workflow Test
      */
-    @Test
-    public void testSmartContractWorkflow() {
-        LOGGER.info("Starting testSmartContractWorkflow");
-        
-        // Create contract address
-        String contractAddress = "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd";
-        
-        // Create a transaction with contract bytecode
-        byte[] contractBytecode = createSimpleContract();
-        Transaction contractTx = new Transaction(contractBytecode);
-        contractTx.setRecipient(contractAddress);
-        contractTx.setGasLimit(20000);
-        
-        // Initialize components
-        EvmState state = new EvmState();
-        GasManager gasManager = new GasManager();
-        gasManager.setInitialGas(contractTx.getGasLimit());
-        
-        // Create EVM instance
-        Evm evm = new Evm(state);
+   /**
+     * Comprehensive Smart Contract Workflow Test
+     */
+   @Test
+   public void testSmartContractWorkflow() {
+       LOGGER.info("Starting testSmartContractWorkflow");
+
+       // Create contract address
+       String contractAddress = "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd";
+
+       // Create a transaction with contract bytecode
+       byte[] contractBytecode = createSimpleContract();
+       Transaction contractTx = new Transaction(contractBytecode);
+       contractTx.setRecipient(contractAddress);
+       contractTx.setGasLimit(50000);  // Increase from 20000 to 50000
         
         try {
             // Execute contract
             evm.execute(contractBytecode, contractTx);
+            
+            // Verify the stored result
+            String storedResult = evmState.load(contractAddress, "1");
+            assertEquals("12", storedResult, "Contract should store addition result (5 + 7 = 12)");
             
             LOGGER.info("Complete smart contract workflow test passed");
         } catch (Exception e) {
@@ -207,7 +275,6 @@ public class BaseSmartContractTest {
             fail("Smart contract workflow test failed: " + e.getMessage());
         }
     }
-
     /**
      * Test Memory Operations
      */
@@ -256,3 +323,4 @@ public class BaseSmartContractTest {
         LOGGER.info("Stack operations test completed successfully");
     }
 }
+
