@@ -4,11 +4,19 @@
 # Ignore Gradle build output directory
 build/
 
+# Ignore binaries
 app/bin/
 build-logic/bin
 list/bin/
 utilities/bin/
+
+# Ignore sensitive directories or files
 app/src/main/java/org/example/app/core/secure_keys
+Agent PID Evaluation.txt
+.env
+.env.local
+*.env.*
+
 # Ignore the specific large files
 gradle-8.12-bin.zip
 gradle-8.12/lib/kotlin-compiler-embeddable-2.0.21.jar
