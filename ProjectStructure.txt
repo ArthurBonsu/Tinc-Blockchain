@@ -442,10 +442,7 @@ C:.
     │   │                   ├───resources
     │   │                   │       peers.xml
     │   │                   │
-    │   │                   ├───secure_keys
-    │   │                   │       MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+dxOfwfdUAHpcM5dCy42BAs6o2ZXPSG6LoSyPihUP9MHta3wjI3zBGBZxi6wIOoOsLZx7O+jngoGTUh7diKJhA==_private.key
-    │   │                   │       MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+dxOfwfdUAHpcM5dCy42BAs6o2ZXPSG6LoSyPihUP9MHta3wjI3zBGBZxi6wIOoOsLZx7O+jngoGTUh7diKJhA==_public.key
-    │   │                   │
+    │   │             
     │   │                   ├───smartcontract
     │   │                   │       Account.java
     │   │                   │       Evm.java

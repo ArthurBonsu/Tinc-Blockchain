@@ -27,4 +27,14 @@ public class Stack<T> {
     public boolean isEmpty() {
         return stack.isEmpty();
     }
+
+    // Added clear method to empty the stack
+    public void clear() {
+        stack.clear();
+    }
+
+    // Added size method to return number of elements
+    public int size() {
+        return stack.size();
+    }
 }

@@ -3,16 +3,24 @@
  *
  * This project uses @Incubating APIs which are subject to change.
  */
-
 plugins {
     id 'buildlogic.java-application-conventions'
+    id 'application'
 }
 
 dependencies {
     implementation 'org.apache.commons:commons-text'
     implementation project(':utilities')
-     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:slf4j-simple:1.7.36' // Or another implementation
+    // Add SLF4J
+      testImplementation 'org.slf4j:slf4j-simple:1.7.36'
+    
+    // JUnit dependencies (if not already present)
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
 application {
@@ -20,22 +28,32 @@ application {
     mainClass = 'org.example.app.App'
 }
 
-// Added test dependencies
-dependencies {
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:4.11.0'
-    testImplementation 'org.mockito:mockito-junit-jupiter:4.11.0'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
 }
 
-// Update test dependencies to use JUnit 5
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
-    testImplementation 'org.mockito:mockito-junit-jupiter:4.6.1'
-    testImplementation 'org.mockito:mockito-core:4.6.1'
+tasks.withType(JavaCompile).configureEach {
+    options.release = 22
+    options.compilerArgs += ['--enable-preview']
+}
+
+tasks.withType(Test).configureEach {
+    jvmArgs += ['--enable-preview']
 }
 
 test {
     useJUnitPlatform()
+    
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        showExceptions true
+        showCauses true
+        showStackTraces true
+        
+        // Set to show standard out and standard error streams
+        showStandardStreams = true
+    }
+    
 }

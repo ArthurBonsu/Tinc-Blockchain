@@ -1,9 +1,17 @@
 # Ignore Gradle project-specific cache directory
 .gradle/
-
+.idea
 # Ignore Gradle build output directory
 build/
 
+app/bin/
+build-logic/bin
+list/bin/
+utilities/bin/
+app/src/main/java/org/example/app/core/secure_keys
 # Ignore the specific large files
 gradle-8.12-bin.zip
 gradle-8.12/lib/kotlin-compiler-embeddable-2.0.21.jar
+
+
+app/src/test/java/org/example/app/core/lib/*

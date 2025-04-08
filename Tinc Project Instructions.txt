@@ -1,0 +1,130 @@
+1. Done today 
+1. Full project committed to GitHub
+
+TODOS
+A) Completion of Configuration 
+i) GitHub
+ii) IntelliJ including all configuration and builds 
+
+
+Next Stage 
+i)   Base Test 
+ii)  Process Test 
+iii) Mergers
+
+Base Test will be the simplest form of Test we will engage in for the coming weeks we will then move on to the process test.
+
+pp
+    │   │               └───core
+    │   │                   ├───account
+    │   │                   ├───api
+    │   │                   │   ├───handlers
+    │   │                   │   ├───rest
+    │   │                   │   └───rpc
+    │   │                   ├───block
+    │   │                   │   └───transaction
+    │   │                   ├───build
+    │   │                   │   ├───distributions
+    │   │                   │   ├───libs
+    │   │                   │   ├───reports
+    │   │                   │   │   └───problems
+    │   │                   │   ├───scripts
+    │   │                   │   └───tmp
+    │   │                   │       └───jar
+    │   │                   ├───config
+    │   │                   ├───consensus
+    │   │                   ├───crypto
+    │   │                   ├───encoder
+    │   │                   ├───eth
+    │   │                   ├───evm
+    │   │                   ├───internal
+    │   │                   ├───lib
+    │   │                   ├───mempool
+    │   │                   ├───metrics
+    │   │                   ├───network
+    │   │                   ├───p2p
+    │   │                   ├───pbftconsensus
+    │   │                   ├───resources
+    │   │                   ├───secure_keys
+    │   │                   ├───smartcontract
+    │   │                   ├───state
+    │   │                   ├───storage
+    │   │                   ├───types
+    │   │                   └───wallet
+
+Allocation 
+
+Elvis: 
+Merger of Codebase 1 and Codebase 2 
+Folder:
+i) account
+ii) block
+
+Sample: 
+i) config
+iii) consensus
+iii) crypto
+
+Edson:
+i) encoder 
+ii) eth 
+iii) evm
+
+Wilfred:
+i) internal
+ii) lib
+iii) mempool
+
+Putra
+i) metrics
+ii) network
+iii) p2p
+iv) pbftconsensus
+
+Arthur
+i) resources
+ii) secure_keys
+iii) smartcontract
+iv) state
+
+Grace
+i) storage
+ii) types 
+iii) wallet 
+
+Purpose: To get everything configured and to test files within a particular module
+
+How To Do The Base Test.
+
+1. Create a filename that corresponds to name of the folder in main given to you in the test  folder starting with Base + name+ test
+└───test
+        ├───java
+        │   └───org
+        │       └───example
+        │           └───app
+        │               └───core
+        │                   └───block
+                             BaseBlockTest
+
+2. Upload folder files within any AI tool eg. Claude or Chatgpt. Eg upload the block files into the AI tools 
+Eg.   ├───block
+    │   │                   │   │   Block.java
+    │   │                   │   │   BlockHeader.java
+    │   │                   │   │   BlockProcessor.java
+    │   │                   │   │   BlockValidator.java
+    │   │                   │   │   Miner.java
+    │   │                   │   │   Transaction.java
+    │   │                   │   │   TransactionManager.java
+    │   │                   │   │   Validator.java
+    │   │                   │   │
+    │   │                   │   └───transaction
+    │   │                   │           Transaction.java
+
+3. Create a test script by requesting AI to build you a comprehensive test file that is able to test members of file
+Example Prompt: With files within block folder from the list provided within the tree, develop a comprehensive test file that test the components within the folder and outputs results.
+
+4. Save the test files within the test folder with the standard name format provided Base + name of folder + test 
+
+5. Commit to given branch of project not to main. We can commit to main if we are all sure.If you dont have a branch I will create one for you 
+ 
+
