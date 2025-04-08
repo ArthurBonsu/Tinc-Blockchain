@@ -1,0 +1,255 @@
+Resolving Git Authentication and Large File Issues in Tinc-Blockchain Repository
+
+Introduction
+
+Managing a Git repository can sometimes become a frustrating task, especially when dealing with authentication issues, remote URL configurations, and large file restrictions. While working on the Tinc-Blockchain repository, we encountered multiple challenges related to authentication, credential storage, and pushing large files. This post walks through the troubleshooting process, solutions applied, and best practices learned along the way.
+
+Authentication Issues: Switching from HTTPS to SSH
+
+Step 1: Identifying the Authentication Issue
+
+Initially, we faced problems pushing changes to the repository due to incorrect credential storage. Even after ensuring the repository had the correct .git folder, authentication errors persisted, prompting us to reconfigure access.
+
+Step 2: Clearing Old Credentials
+
+To eliminate any stored credentials causing conflicts, we executed the following steps:
+
+Cleared any cached credentials in Git:
+
+git credential-cache exit
+
+Removed stored credentials from Windows Credential Manager:
+
+Open Control Panel > User Accounts > Credential Manager.
+
+Delete any credentials related to github.com.
+
+Unset any globally stored credentials:
+
+git config --global --unset credential.helper
+
+Step 3: Reconfiguring Remote URL
+
+After clearing credentials, we needed to set up the correct remote URL. Initially, we attempted to authenticate using a GitHub Personal Access Token (PAT):
+
+git remote set-url origin https://ArthurBonsu:ghp_YOUR_TOKEN_HERE@github.com/ArthurBonsu/Tinc-Blockchain.git
+
+However, we discovered that the system defaulted to SSH authentication. This required an alternative setup using SSH keys.
+
+Step 4: Setting Up SSH Authentication
+
+To resolve persistent authentication issues, we switched to SSH:
+
+git remote set-url origin git@github.com:ArthurBonsu/Tinc-Blockchain.git
+
+If SSH was not previously configured, we had to generate and add an SSH key:
+
+Generate an SSH Key (if not already created):
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+Start the SSH agent and add the key:
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+
+Add the SSH key to GitHub:
+
+Retrieve the public key:
+
+cat ~/.ssh/id_rsa.pub
+
+Copy and add it to GitHub > Settings > SSH and GPG Keys.
+
+Verify the connection:
+
+ssh -T git@github.com
+
+If successful, GitHub returns:
+
+Hi ArthurBonsu! You've successfully authenticated, but GitHub does not provide shell access.
+
+Step 5: Pushing Changes via SSH
+
+Once SSH authentication was established, we successfully pushed our changes:
+
+git push --force origin main
+
+Handling Large File Issues
+
+After resolving authentication, we encountered errors due to large files exceeding GitHub’s 100MB limit. These included gradle-8.12-bin.zip and kotlin-compiler-embeddable-2.0.21.jar. To address this, we considered two solutions:
+
+Option 1: Removing Large Files from Git History
+
+To permanently remove large files and prevent further tracking:
+
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch gradle-8.12-bin.zip gradle-8.12/lib/kotlin-compiler-embeddable-2.0.21.jar" --prune-empty --tag-name-filter cat -- --all
+
+Then, force push the changes:
+
+git push origin --force --all
+
+To prevent future additions, we updated the .gitignore file:
+
+.gradle/
+build/
+gradle-8.12-bin.zip
+gradle-8.12/lib/kotlin-compiler-embeddable-2.0.21.jar
+
+After updating .gitignore, we committed the changes:
+
+git add .gitignore
+git commit -m "Add large files to .gitignore"
+git push origin main
+
+Option 2: Using Git Large File Storage (Git LFS)
+
+Instead of removing large files, Git LFS allows tracking them separately.
+
+Install Git LFS:
+
+git lfs install
+
+Track large files:
+
+git lfs track "gradle-8.12-bin.zip"
+git lfs track "gradle-8.12/lib/kotlin-compiler-embeddable-2.0.21.jar"
+
+Commit and push:
+
+git add .gitattributes
+git commit -m "Add large files to Git LFS"
+git push origin main
+
+GitHub now stores large files separately, resolving size limitations.
+
+Conclusion
+
+Through a combination of SSH authentication and large file management, we successfully addressed the issues preventing us from pushing changes to the Tinc-Blockchain repository. The key takeaways include:
+
+Clearing cached credentials to prevent authentication conflicts.
+
+Switching from HTTPS to SSH for more secure authentication.
+
+Using .gitignore to exclude unnecessary large files.
+
+Leveraging Git LFS to track large files efficiently.
+
+These troubleshooting steps are essential for any developer managing Git repositories, ensuring smoother version control and repository maintenance.
+
+
+
+
+
+esolving Authentication and Large File Issues in Tinc-Blockchain
+
+While working on the Tinc-Blockchain repository, we encountered authentication issues when pushing changes and difficulties due to large files in the repository. This post outlines the challenges we faced and how we ultimately resolved them.
+
+Authentication Issues When Pushing to GitHub
+
+We initially faced authentication problems when trying to push our changes to GitHub. The error message suggested that our authentication method was not recognized. To resolve this:
+
+Verified Git Credentials:
+
+Checked if Git was configured correctly using:
+
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+Switched to HTTPS Authentication:
+
+Instead of SSH, we used GitHub’s personal access token authentication:
+
+git remote set-url origin https://github.com/your-username/tinc-blockchain.git
+
+Then, we generated a GitHub personal access token and used it as the password when prompted.
+
+Cleared and Re-authenticated:
+
+If previous credentials were causing conflicts, we reset them:
+
+git credential reject https://github.com
+
+Then, we attempted the push again, entering the correct credentials.
+
+Handling Large Files in the Repository
+
+Another major issue we encountered was pushing large files that exceeded GitHub’s file size limit. The repository rejected these files, preventing our commits from going through. Here’s how we resolved it:
+
+Cleaning the Repository and Pushing Large Files to GitHub
+
+To clean up the repository by removing large files from history and push the cleaned repository, we followed these steps:
+
+Step 1: Expire Reflog Entries
+
+To ensure that any large file references in Git history were expired, we ran:
+
+git reflog expire --expire=now --all
+
+This removed any saved references to previous commits that might still contain large files.
+
+Step 2: Perform Garbage Collection
+
+To clean up unnecessary files and optimize the repository, we executed:
+
+git gc --prune=now --aggressive
+
+This aggressively removed unnecessary files and compressed the repository.
+
+Step 3: Force Push Cleaned Repository to GitHub
+
+After cleaning up the repository, we forcefully pushed the changes to override previous commits:
+
+git push --force origin main
+
+This ensured that the large files were completely removed from GitHub.
+
+Step 4: Verify Cleanup on GitHub
+
+Once the push was complete, we checked our GitHub repository to confirm that the large files no longer existed in the history.
+
+Conclusion
+
+By following these steps, we were able to resolve both the authentication and large file issues in the Tinc-Blockchain repository. This process not only allowed us to push changes successfully but also helped in maintaining a clean and efficient repository structure.
+
+
+Cleaning the Repository and Pushing Large Files to GitHub
+
+This guide explains how to clean up a Git repository by removing large files from history and pushing the cleaned repository to GitHub.
+
+Step 1: Navigate to the Repository Directory
+
+Before running any commands, ensure you are in the correct repository directory. Use the following command to navigate to your project folder:
+
+cd /path/to/your/repository
+
+Step 2: Expire Reflog Entries
+
+To ensure that any large file references in Git history are expired, run:
+
+git reflog expire --expire=now --all
+
+This removes any saved references to previous commits that might still contain large files.
+
+Step 3: Perform Garbage Collection
+
+To clean up unnecessary files and optimize the repository, execute:
+
+git gc --prune=now --aggressive
+
+This command aggressively removes unnecessary files and compresses the repository.
+
+Step 4: Force Push Cleaned Repository to GitHub
+
+After cleaning up the repository, push the changes forcefully to override previous commits:
+
+git push --force origin main
+
+This ensures that the large files are completely removed from GitHub.
+
+Step 5: Verify Cleanup on GitHub
+
+Once the push is complete, check your GitHub repository to ensure that the large files no longer exist in the history.
+
+We were finally able to commit it with the following conclusive script, and we did this in the end as well
+
