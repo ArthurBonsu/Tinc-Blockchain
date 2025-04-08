@@ -26,6 +26,10 @@ public class Block {
         this.stateRoot = null;
     }
 
+    public static Block deserialize(byte[] blockData) {
+        return null;
+    }
+
     // Getters and Setters
     public String getHash() {
         return hash;
@@ -104,5 +108,9 @@ public class Block {
                 (transactions != null && !transactions.isEmpty() ?
                         transactions.get(0).toString() : "") +
                 "], stateRoot=null}";
+    }
+
+    public byte[] serialize() {
+        return null; 
     }
 }

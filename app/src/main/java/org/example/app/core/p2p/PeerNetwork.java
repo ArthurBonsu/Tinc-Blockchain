@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Represents a peer-to-peer network for communication and coordination among peers.
  */
-public class PeerNetwork {
+public class  PeerNetwork {
     private final String peerId;         // Unique identifier for the peer in the network
     private final String host;           // Host address where the peer listens
     private final int port;              // Port number for communication
