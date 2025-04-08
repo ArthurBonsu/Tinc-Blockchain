@@ -7,3 +7,6 @@ build/
 # Ignore the specific large files
 gradle-8.12-bin.zip
 gradle-8.12/lib/kotlin-compiler-embeddable-2.0.21.jar
+
+
+app/src/test/java/org/example/app/core/lib/*
