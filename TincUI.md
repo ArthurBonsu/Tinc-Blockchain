@@ -265,252 +265,253 @@ The UI should integrate with:
 - QR code generation / scanning  
 
 ---
+UI Development Strategy from Process Tests
+Core Principle: Process Tests → UI Workflows
+Your process tests contain the exact interaction patterns users need. Each test method becomes a UI workflow, each assertion becomes a UI validation, and each API call becomes a UI action.
 
-🧪 UI Development Strategy from Process Tests
-🧭 Core Principle: Process Tests → UI Workflows
-Your process tests contain the exact interaction patterns users need.
-✅ Each test method becomes a UI workflow
-✅ Each assertion becomes a UI validation
-✅ Each API call becomes a UI action
-
-🔍 Process Test Analysis & UI Mapping
+Process Test Analysis & UI Mapping
 1. SmartContractProcessTest → Smart Contract UI
-Test Methods to Extract:
-
+Test Methods to Extract
 java
 Copy
 Edit
 // From SmartContractProcessTest.java
-testContractDeployment() → Deploy Contract UI Flow  
-testContractExecution() → Execute Contract UI Flow  
-testContractStateManagement() → Contract State Viewer  
-testERC20TokenOperations() → Token Management UI  
-testContractEventHandling() → Event Monitor UI  
-UI Components Needed:
+testContractDeployment()         → Deploy Contract UI Flow  
+testContractExecution()          → Execute Contract UI Flow  
+testContractStateManagement()    → Contract State Viewer  
+testERC20TokenOperations()       → Token Management UI  
+testContractEventHandling()      → Event Monitor UI  
+UI Components Needed
+ContractDeploymentPanel.java - Mirrors contract deployment test flow
 
-ContractDeploymentPanel.java – Mirrors contract deployment test flow
+ContractExecutionPanel.java - Mirrors contract execution test
 
-ContractExecutionPanel.java – Mirrors contract execution test
+ContractStateViewer.java - Shows contract state like tests verify
 
-ContractStateViewer.java – Displays contract state like test verifies
+TokenOperationsPanel.java - ERC20 operations from token tests
 
-TokenOperationsPanel.java – ERC20 operations from token tests
-
-EventMonitorPanel.java – Real-time event display
+EventMonitorPanel.java - Real-time event display
 
 2. WalletTest → Wallet Management UI
-Test Methods to Extract:
-
+Test Methods to Extract
 java
 Copy
 Edit
-testWalletCreation() → Create Wallet UI Flow  
-testTransactionSigning() → Sign Transaction UI Flow  
-testBalanceRetrieval() → Balance Display UI  
-testPrivateKeyOperations() → Key Management UI  
-testMultipleWallets() → Wallet Switcher UI  
-UI Components Needed:
+testWalletCreation()         → Create Wallet UI Flow  
+testTransactionSigning()     → Sign Transaction UI Flow  
+testBalanceRetrieval()       → Balance Display UI  
+testPrivateKeyOperations()   → Key Management UI  
+testMultipleWallets()        → Wallet Switcher UI  
+UI Components Needed
+WalletCreationWizard.java - Step-by-step wallet creation
 
-WalletCreationWizard.java – Step-by-step wallet creation
+TransactionSigningDialog.java - Transaction approval UI
 
-TransactionSigningDialog.java – Transaction approval UI
+BalanceDisplayPanel.java - Real-time balance updates
 
-BalanceDisplayPanel.java – Real-time balance updates
+KeyManagementPanel.java - Secure key operations
 
-KeyManagementPanel.java – Secure key operations
-
-WalletSelectorDropdown.java – Multi-wallet support
+WalletSelectorDropdown.java - Multi-wallet support
 
 3. TokenTest → Token Management UI
-Test Methods to Extract:
-
+Test Methods to Extract
 java
 Copy
 Edit
-testTokenCreation() → Token Creation UI Flow  
-testTokenTransfer() → Token Transfer UI Flow  
-testTokenBalance() → Token Balance UI  
-testTokenApproval() → Token Approval UI Flow  
-testTokenEvents() → Token Event Monitor  
-UI Components Needed:
+testTokenCreation()     → Token Creation UI Flow  
+testTokenTransfer()     → Token Transfer UI Flow  
+testTokenBalance()      → Token Balance UI  
+testTokenApproval()     → Token Approval UI Flow  
+testTokenEvents()       → Token Event Monitor  
+UI Components Needed
+TokenCreationForm.java - Token parameter input form
 
-TokenCreationForm.java – Token parameter input form
+TokenTransferPanel.java - Send/receive token interface
 
-TokenTransferPanel.java – Send/receive token interface
+TokenBalanceGrid.java - Multi-token balance display
 
-TokenBalanceGrid.java – Multi-token balance display
+TokenApprovalDialog.java - Approve token spending
 
-TokenApprovalDialog.java – Approve token spending
-
-TokenEventsList.java – Token transaction history
+TokenEventsList.java - Token transaction history
 
 4. NetworkP2PTest → Network Management UI
-Test Methods to Extract:
-
+Test Methods to Extract
 java
 Copy
 Edit
-testPeerDiscovery() → Peer Discovery UI  
-testMessageBroadcast() → Network Status UI  
-testNetworkResilience() → Network Health Monitor  
+testPeerDiscovery()           → Peer Discovery UI  
+testMessageBroadcast()        → Network Status UI  
+testNetworkResilience()       → Network Health Monitor  
 testCrossShardCommunication() → Shard Status UI  
-UI Components Needed:
+UI Components Needed
+PeerDiscoveryPanel.java - Active peers display
 
-PeerDiscoveryPanel.java – Active peers display
+NetworkStatusDashboard.java - Network health metrics
 
-NetworkStatusDashboard.java – Network health metrics
+MessageBroadcastLogger.java - Network message monitor
 
-MessageBroadcastLogger.java – Network message monitor
-
-ShardStatusViewer.java – Cross-shard communication status
+ShardStatusViewer.java - Cross-shard communication status
 
 5. RealNetworkManager → API Interface UI
-Test Methods to Extract:
-
+Test Methods to Extract
 java
 Copy
 Edit
-testRPCCalls() → RPC Testing UI  
-testAPIEndpoints() → API Monitor UI  
-testNetworkRequests() → Request/Response Viewer  
-UI Components Needed:
+testRPCCalls()         → RPC Testing UI  
+testAPIEndpoints()     → API Monitor UI  
+testNetworkRequests()  → Request/Response Viewer  
+UI Components Needed
+RPCTesterPanel.java - Interactive RPC testing
 
-RPCTesterPanel.java – Interactive RPC testing
+APIMonitorDashboard.java - API endpoint status
 
-APIMonitorDashboard.java – API endpoint status
+RequestResponseViewer.java - Request/response inspection
 
-RequestResponseViewer.java – Request/response inspection
-
-🏗️ UI Architecture Pattern: Test-Driven UI (TDUI)
-Base Structure
+UI Architecture Pattern: Test-Driven UI (TDUI)
+Core Structure
 java
 Copy
 Edit
+// Base pattern for all UI components
 public class ProcessTestUIComponent extends JPanel {
+    
+    // Extract test setup
     private void initializeFromTest() {
         // Mirror test initialization
     }
 
+    // Extract test actions
     private void executeTestAction() {
         // Convert test method to UI action
     }
 
+    // Extract test assertions
     private void validateUIState() {
         // Convert test assertions to UI validation
     }
 }
-Example: Smart Contract UI
+Specific Implementation Example: Smart Contract UI
 java
 Copy
 Edit
+// Based on SmartContractProcessTest
 public class SmartContractDeploymentPanel extends ProcessTestUIComponent {
-
+    
+    // Extract from testContractDeployment()
     private void deployContract() {
+        // Mirror test's contract deployment logic
         String contractCode = contractCodeArea.getText();
         String deployerAddress = walletSelector.getSelectedAddress();
 
+        // Use same validation as test
         if (validateContractCode(contractCode)) {
+            // Execute deployment using same path as test
             ContractDeploymentResult result = smartContractManager.deployContract(
-                contractCode, deployerAddress);
+                contractCode, deployerAddress
+            );
+
+            // Update UI based on test assertions
             updateDeploymentStatus(result);
         }
     }
 
+    // Extract from test assertions
     private boolean validateContractCode(String code) {
+        // Use same validation logic as process test
         return smartContractValidator.isValidSolidity(code);
     }
 }
-📁 File Structure for Test-Based UI
+File Structure for Test-Based UI
 swift
 Copy
 Edit
 src/main/java/org/example/app/ui/
 ├── testbased/
-│   ├── SmartContractTestUI.java         // From SmartContractProcessTest
-│   ├── WalletTestUI.java                // From WalletTest  
-│   ├── TokenTestUI.java                 // From TokenTest
-│   ├── NetworkTestUI.java               // From NetworkP2PTest
-│   └── APITestUI.java                   // From RealNetworkManager
+│   ├── SmartContractTestUI.java     // From SmartContractProcessTest
+│   ├── WalletTestUI.java            // From WalletTest  
+│   ├── TokenTestUI.java             // From TokenTest
+│   ├── NetworkTestUI.java           // From NetworkP2PTest
+│   └── APITestUI.java               // From RealNetworkManager
 ├── components/
-│   ├── TestActionButton.java            // Buttons that execute test actions
-│   ├── TestValidationPanel.java         // Panels that show test assertions
-│   ├── TestDataTable.java               // Tables showing test data
-│   └── TestProgressIndicator.java       // Progress bars for test operations
+│   ├── TestActionButton.java        // Buttons that execute test actions
+│   ├── TestValidationPanel.java     // Panels that show test assertions
+│   ├── TestDataTable.java           // Tables showing test data
+│   └── TestProgressIndicator.java   // Progress bars for test operations
 ├── workflows/
 │   ├── ContractDeploymentWorkflow.java  // Complete deployment flow
 │   ├── TokenCreationWorkflow.java       // Complete token creation flow
 │   ├── TransactionWorkflow.java         // Complete transaction flow
 │   └── WalletSetupWorkflow.java         // Complete wallet setup flow
 └── integration/
-    ├── TestToUIBridge.java              // Bridges test code to UI
-    ├── UITestValidator.java             // Validates UI against test expectations
-    └── ProcessTestExtractor.java        // Extracts UI patterns from tests
-🚀 Implementation Strategy
-✅ Phase 1: Extract Core Workflows
-Identify key test methods
+    ├── TestToUIBridge.java          // Bridges test code to UI
+    ├── UITestValidator.java         // Validates UI against test expectations
+    └── ProcessTestExtractor.java    // Extracts UI patterns from tests
+Implementation Strategy
+Phase 1: Extract Core Workflows
+Identify key test methods in each process test
 
 Map test parameters to UI input fields
 
-Convert assertions to validation rules
+Convert test assertions to UI validation rules
 
-Transform data to UI display formats
+Transform test data to UI display formats
 
-✅ Phase 2: Create UI Components
-TestActionPanel – Execute test actions via UI
+Phase 2: Create UI Components
+TestActionPanel - Execute test actions via UI
 
-TestResultViewer – Display test results
+TestResultViewer - Display test results in UI format
 
-TestDataManager – Handle test data
+TestDataManager - Handle test data in UI context
 
-TestValidationIndicator – Show validation status
+TestValidationIndicator - Show validation status
 
-✅ Phase 3: Build Complete Workflows
-Chain test methods into workflows
+Phase 3: Build Complete Workflows
+Chain test methods into complete UI workflows
 
-Add UI error handling from test errors
+Add user-friendly error handling based on test error cases
 
-Implement real-time test state updates
+Create real-time updates based on test state changes
 
-Validate UI using test rules
+Implement test-based validation throughout UI
 
-🎯 Benefits of This Approach
-✅ 1. Guaranteed Functionality
-UI actions mirror proven test logic
+Benefits of This Approach
+✅ Guaranteed Functionality
+UI actions mirror proven test interactions
 
-No guesswork
+No guesswork about what features work
 
-Built-in validation
+Built-in validation from test assertions
 
-✅ 2. Comprehensive Coverage
-Every test becomes a UI feature
+📘 Comprehensive Coverage
+Every test scenario becomes a UI feature
 
-Test edge cases handled in UI
+Edge cases from tests become UI edge case handling
 
-Complex workflows already proven
+Complex workflows already proven in tests
 
-✅ 3. Consistent Behavior
-UI = Tested functionality
+🔁 Consistent Behavior
+UI behaves exactly like tested functionality
 
-Same error handling
+Same error handling as tests
 
-Same data validation
+Same data validation as tests
 
-✅ 4. Easy Maintenance
-Tests drive UI changes
+🔧 Easy Maintenance
+When tests change, UI updates accordingly
 
-Test failures = UI bugs
+Test failures indicate UI features that need updates
 
-Clear traceability
+Clear traceability between tests and UI features
 
-🔜 Next Steps
-Analyze your specific *Test.java files
+Next Steps
+Analyze your specific process test files to extract exact workflows
 
-Create UI mockups from test flows
+Create UI mockups based on test interaction patterns
 
-Implement TestToUIBridge utilities
+Implement test-to-UI extraction utilities
 
-Build components that mirror test behavior
+Build UI components that mirror test functionality
 
-Validate UI using test expectations
+Validate UI behavior against original test expectations
 
 
