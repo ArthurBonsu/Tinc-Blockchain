@@ -1,6 +1,3 @@
-okay so we continue, we have completed and every test is successful so far. We only have the ui to work on we need to build ui for the project. We will need to understand every part of the project. We will also use the process test to build the ui module since the process test contains actual interractions with the project and will be useful in building the ui. There are 2 test failing and we will find out what it is later.  But the UI can be built . I think we have all the process test we need, we will still get more but for now give me what uis we will need to build the files that will be needed for each ui and the various parts I have not considered. I guess you need files for context as well
-
-
 Core UI Modules Needed
 1. Dashboard/Overview UI
 Files Needed:
@@ -326,3 +323,4 @@ Progressive Web App (PWA) support
 Mobile wallet functionality
 
 QR code generation/scanning
+
