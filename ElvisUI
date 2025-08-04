@@ -2,20 +2,16 @@
 
 This guideline helps contributors understand how to integrate modular UI components (like Transaction, Token, Network, Identity, etc.) into the main application dashboard.
 
----
-
 ## ✅ Summary of Recent Work
 
 We resolved a critical naming conflict and enhanced the modular integration pattern:
 
-- 🔁 Renamed `TransactionManager` (UI layer) to `UITransactionManager` to avoid conflict with core logic.
-- 🔧 Updated all imports and constructor references.
-- 🔌 Integrated `UITransactionManager` into `DashboardController`.
-- 🛠️ Connected UI components with blockchain (e.g., `Miner`, `BlockProcessor`).
-- 📊 Simplified `PeerNetwork` logic for metrics view.
+- 🔁 Renamed `TransactionManager` (UI layer) to `UITransactionManager` to avoid conflict with core logic.  
+- 🔧 Updated all imports and constructor references.  
+- 🔌 Integrated `UITransactionManager` into `DashboardController`.  
+- 🛠️ Connected UI components with blockchain (e.g., `Miner`, `BlockProcessor`).  
+- 📊 Simplified `PeerNetwork` logic for metrics view.  
 - ✅ Confirmed dashboard metrics update after UI actions.
-
----
 
 ## 🧱 Project UI Structure Convention
 
@@ -40,8 +36,6 @@ ui/
     └── NetworkView.java
 ```
 
----
-
 ## 🧭 Step-by-Step Instructions
 
 ### 1️⃣ Create New Feature UI Folder
@@ -52,9 +46,9 @@ For any new feature module (e.g., Token, Network):
 - Add the following Java classes:
 
 ```
-<Feature>Controller.java
-<Feature>Manager.java
-<Feature>UIUtils.java
+<Feature>Controller.java  
+<Feature>Manager.java  
+<Feature>UIUtils.java  
 <Feature>View.java
 ```
 
@@ -65,8 +59,6 @@ public class NetworkManager {
     // Handles blockchain communication, mining, and network logic
 }
 ```
-
----
 
 ### 2️⃣ Integrate into DashboardController
 
@@ -85,8 +77,6 @@ private NetworkController networkController;
 private NetworkManager networkManager;
 private NetworkView networkView;
 ```
-
----
 
 ### 3️⃣ Implement View Display Method
 
@@ -115,8 +105,6 @@ private void showNetworkView() {
 }
 ```
 
----
-
 ### 4️⃣ Initialize Components on Startup
 
 In `DashboardController`:
@@ -135,15 +123,13 @@ Then call this in your `initialize()` method:
 initializeNetworkUIComponents();
 ```
 
----
-
 ### 5️⃣ Use IDE for Safe Refactoring
 
 To rename classes safely:
 
-1. Right-click `TransactionManager` in the UI layer.
-2. Select **Refactor → Rename**.
-3. Rename to `UITransactionManager`.
+1. Right-click `TransactionManager` in the UI layer.  
+2. Select **Refactor → Rename**.  
+3. Rename to `UITransactionManager`.  
 4. IDE will:
    - Update all references
    - Update imports, constructors, JavaDoc
@@ -151,17 +137,13 @@ To rename classes safely:
 
 🎯 Use `Shift + F6` (IntelliJ) or `Alt + Shift + R` (Eclipse)
 
----
+## 🧪 Test Integration
 
-### 🧪 Test Integration
-
-1. Run the app
-2. Click the new feature tab/button
-3. Validate UI loads correctly
-4. Perform an action and observe dashboard updates
+1. Run the app  
+2. Click the new feature tab/button  
+3. Validate UI loads correctly  
+4. Perform an action and observe dashboard updates  
 5. Check console logs for blockchain interaction
-
----
 
 ## ✅ Summary Checklist
 
@@ -175,15 +157,9 @@ To rename classes safely:
 | Peer count logic simplified            | ✅     |
 | View renders and updates dashboard     | ✅     |
 
----
-
 ## 🚀 Contributing
 
 When building a new UI module:
 
-- Follow the **structure and naming conventions**
+- Follow the **structure and naming conventions**  
 - Use existing modules (e.g., `transaction/`, `token/`) as reference
-- Always initialize your components through `DashboardController`
-- Attach `updateDashboardMetrics()` callback for real-time updates
-
-Happy coding! 🧑‍💻
